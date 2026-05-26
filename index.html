@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pure Finish STL – Auto Detailing</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              black: '#080808',
+              darkgray: '#111111',
+              card: '#141414',
+              border: '#1e1e1e',
+              blue: '#1a8cff',
+              'blue-glow': '#0066cc',
+              red: '#e01020',
+              'red-glow': '#b00010',
+              silver: '#c8cdd6',
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+          },
+          boxShadow: {
+            'blue-glow': '0 0 20px rgba(26,140,255,0.35)',
+            'red-glow': '0 0 20px rgba(224,16,32,0.35)',
+            'card': '0 4px 32px rgba(0,0,0,0.7)',
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background-color: #080808; color: #f0f0f0; font-family: 'Inter', sans-serif; }
+
+    /* Gradient text utility */
+    .text-gradient-blue { background: linear-gradient(135deg, #1a8cff, #66b3ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .text-gradient-red  { background: linear-gradient(135deg, #e01020, #ff4455); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+
+    /* Hero background */
+    .hero-bg {
+      background:
+        radial-gradient(ellipse 80% 60% at 50% 0%, rgba(26,140,255,0.12) 0%, transparent 65%),
+        radial-gradient(ellipse 60% 40% at 100% 50%, rgba(224,16,32,0.10) 0%, transparent 60%),
+        #080808;
+    }
+
+    /* Animated top stripe */
+    .top-stripe {
+      background: linear-gradient(90deg, #1a8cff 0%, #e01020 50%, #1a8cff 100%);
+      background-size: 200% 100%;
+      animation: stripe-slide 4s linear infinite;
+    }
+    @keyframes stripe-slide { 0%{background-position:0% 0%} 100%{background-position:200% 0%} }
+
+    /* Card hover */
+    .pricing-card { transition: transform 0.25s ease, box-shadow 0.25s ease; }
+    .pricing-card:hover { transform: translateY(-6px); }
+    .pricing-card.blue:hover  { box-shadow: 0 8px 40px rgba(26,140,255,0.4); }
+    .pricing-card.gold:hover  { box-shadow: 0 8px 40px rgba(224,160,0,0.4); }
+    .pricing-card.red:hover   { box-shadow: 0 8px 40px rgba(224,16,32,0.5); }
+
+    /* Pulse CTA */
+    .cta-pulse { animation: pulse-cta 2.4s ease-in-out infinite; }
+    @keyframes pulse-cta {
+      0%,100% { box-shadow: 0 0 0 0 rgba(26,140,255,0.5), 0 4px 24px rgba(26,140,255,0.35); }
+      50%      { box-shadow: 0 0 0 12px rgba(26,140,255,0), 0 4px 32px rgba(26,140,255,0.55); }
+    }
+
+    /* Mobile sticky CTA bar */
+    .sticky-cta { position: fixed; bottom: 0; left: 0; right: 0; z-index: 50; }
+
+    /* Modal */
+    .modal-overlay { transition: opacity 0.2s ease; }
+    .modal-box { transition: transform 0.25s ease, opacity 0.25s ease; }
+
+    /* Divider line */
+    .divider { height: 1px; background: linear-gradient(90deg, transparent, #1e1e1e 20%, #1e1e1e 80%, transparent); }
+
+    /* Checkmark list */
+    .check-list li::before { content: "✓"; color: #1a8cff; font-weight: 700; margin-right: 8px; }
+    .check-list-red li::before { content: "✓"; color: #e01020; font-weight: 700; margin-right: 8px; }
+
+    /* Badge */
+    .badge-popular {
+      background: linear-gradient(135deg, #1a8cff, #0055bb);
+      font-size: 0.65rem; font-weight: 800; letter-spacing: 0.1em;
+      padding: 3px 10px; border-radius: 100px; text-transform: uppercase;
+    }
+    .badge-best {
+      background: linear-gradient(135deg, #e01020, #8b0010);
+      font-size: 0.65rem; font-weight: 800; letter-spacing: 0.1em;
+      padding: 3px 10px; border-radius: 100px; text-transform: uppercase;
+    }
+  </style>
+</head>
+<body class="antialiased">
+
+<!-- ═══════════ ANIMATED TOP STRIPE ═══════════ -->
+<div class="top-stripe h-1 w-full"></div>
+
+<!-- ═══════════ STICKY MOBILE CTA ═══════════ -->
+<div class="sticky-cta md:hidden shadow-blue-glow">
+  <a href="sms:3142088766" class="flex items-center justify-center gap-2 bg-brand-blue py-3 text-white font-extrabold text-sm tracking-wide">
+    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M20 2H4a2 2 0 00-2 2v18l4-4h14a2 2 0 002-2V4a2 2 0 00-2-2z"/></svg>
+    TEXT 314-208-8766 · SAVE 10%
+  </a>
+</div>
+
+<!-- ═══════════ NAVBAR ═══════════ -->
+<nav class="relative z-40 flex items-center justify-between px-5 py-4 md:px-10">
+  <div class="flex items-center gap-2">
+    <span class="text-xl font-black tracking-tight text-white">PURE<span class="text-gradient-blue">FINISH</span></span>
+    <span class="text-xs font-bold tracking-widest text-brand-silver mt-0.5">STL</span>
+  </div>
+  <div class="hidden md:flex items-center gap-8 text-sm font-semibold text-brand-silver">
+    <a href="#services" class="hover:text-white transition-colors">Services</a>
+    <a href="#addons" class="hover:text-white transition-colors">Add-Ons</a>
+    <a href="#mobile" class="hover:text-white transition-colors">Mobile</a>
+    <a href="#booking" class="hover:text-white transition-colors">Book Now</a>
+  </div>
+  <a href="#booking" class="hidden md:inline-flex items-center gap-2 bg-brand-blue hover:bg-brand-blue-glow text-white text-sm font-bold px-5 py-2.5 rounded-lg transition-colors cta-pulse">
+    Book Now
+  </a>
+  <!-- Mobile book button -->
+  <a href="#booking" class="md:hidden text-brand-blue font-bold text-sm">Book</a>
+</nav>
+
+<!-- ═══════════ HERO ═══════════ -->
+<section class="hero-bg relative overflow-hidden px-5 pt-10 pb-20 md:pt-20 md:pb-32 text-center">
+  <!-- Decorative lines -->
+  <div class="absolute inset-0 overflow-hidden pointer-events-none">
+    <div class="absolute -top-20 -left-20 w-96 h-96 rounded-full border border-brand-blue/10"></div>
+    <div class="absolute -bottom-10 -right-10 w-80 h-80 rounded-full border border-brand-red/10"></div>
+  </div>
+
+  <div class="relative max-w-4xl mx-auto">
+    <div class="inline-flex items-center gap-2 bg-brand-card border border-brand-border rounded-full px-4 py-1.5 mb-6 text-xs font-semibold text-brand-silver tracking-widest uppercase">
+      <span class="w-2 h-2 rounded-full bg-brand-blue animate-pulse"></span>
+      St. Louis Auto Detailing · 100% Satisfaction Guaranteed
+    </div>
+
+    <h1 class="text-5xl md:text-7xl font-black leading-none tracking-tight mb-4">
+      <span class="text-white">PURE</span><br>
+      <span class="text-gradient-blue">FINISH</span>
+      <span class="text-gradient-red"> STL</span>
+    </h1>
+
+    <p class="text-brand-silver text-lg md:text-xl font-medium max-w-xl mx-auto mb-10">
+      Premium mobile auto detailing in St. Louis. We come to <em class="text-white not-italic font-semibold">you</em> — no drop-off needed.
+    </p>
+
+    <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-6">
+      <a href="sms:3142088766"
+        class="w-full sm:w-auto inline-flex items-center justify-center gap-3 bg-brand-blue hover:bg-brand-blue-glow text-white font-extrabold text-base md:text-lg px-8 py-4 rounded-xl transition-colors cta-pulse">
+        <svg class="w-5 h-5 flex-shrink-0" fill="currentColor" viewBox="0 0 24 24"><path d="M20 2H4a2 2 0 00-2 2v18l4-4h14a2 2 0 002-2V4a2 2 0 00-2-2z"/></svg>
+        TEXT 314-208-8766 TO BOOK &amp; SAVE 10%
+      </a>
+      <a href="#booking"
+        class="w-full sm:w-auto inline-flex items-center justify-center gap-2 border border-brand-border hover:border-brand-blue/50 text-white font-bold text-base px-8 py-4 rounded-xl transition-colors">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+        Schedule Online
+      </a>
+    </div>
+
+    <p class="text-xs text-brand-silver/60">Mobile detailing available · Additional $25–$40 travel fee by location</p>
+  </div>
+</section>
+
+<!-- ═══════════ SERVICES / PRICING ═══════════ -->
+<section id="services" class="px-5 py-16 md:py-24 max-w-6xl mx-auto">
+  <div class="text-center mb-12">
+    <p class="text-brand-blue text-xs font-bold tracking-widest uppercase mb-2">Packages</p>
+    <h2 class="text-3xl md:text-5xl font-black text-white">Choose Your Detail</h2>
+    <p class="text-brand-silver mt-3 max-w-lg mx-auto text-sm md:text-base">All packages available for Sedan, SUV, and Truck. Text to lock in 10% off.</p>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+
+    <!-- ── EXPRESS ── -->
+    <div class="pricing-card blue bg-brand-card border border-brand-border rounded-2xl overflow-hidden shadow-card flex flex-col">
+      <div class="bg-gradient-to-r from-brand-blue/20 to-transparent border-b border-brand-border px-6 pt-6 pb-5">
+        <div class="flex items-center justify-between mb-3">
+          <div class="flex items-center gap-2">
+            <svg class="w-6 h-6 text-brand-blue" fill="currentColor" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+            <span class="text-xs font-bold tracking-widest text-brand-blue uppercase">Express Detail</span>
+          </div>
+        </div>
+        <h3 class="text-2xl font-black text-white mb-1">Basic Clean</h3>
+        <p class="text-brand-silver/70 text-xs">30–60 Minutes</p>
+      </div>
+
+      <div class="px-6 py-5 flex-1 flex flex-col">
+        <div class="space-y-2 mb-6">
+          <div class="flex justify-between items-center py-2 border-b border-brand-border/50">
+            <span class="text-sm text-brand-silver flex items-center gap-2">
+              <svg class="w-4 h-4 text-brand-silver/40" fill="currentColor" viewBox="0 0 24 24"><path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99z"/></svg>
+              Sedan
+            </span>
+            <span class="text-white font-bold">$79</span>
+          </div>
+          <div class="flex justify-between items-center py-2 border-b border-brand-border/50">
+            <span class="text-sm text-brand-silver flex items-center gap-2">
+              <svg class="w-4 h-4 text-brand-silver/40" fill="currentColor" viewBox="0 0 24 24"><path d="M20 8h-3L14.5 4h-5L7 8H4a2 2 0 00-2 2v6h2v2h2v-2h12v2h2v-2h2v-6a2 2 0 00-2-2z"/></svg>
+              SUV
+            </span>
+            <span class="text-white font-bold">$89</span>
+          </div>
+          <div class="flex justify-between items-center py-2">
+            <span class="text-sm text-brand-silver flex items-center gap-2">
+              <svg class="w-4 h-4 text-brand-silver/40" fill="currentColor" viewBox="0 0 24 24"><path d="M20 8H4L2 12v4h2v2h2v-2h12v2h2v-2h2v-4l-2-4zM6.5 15a1.5 1.5 0 110-3 1.5 1.5 0 010 3zm11 0a1.5 1.5 0 110-3 1.5 1.5 0 010 3z"/></svg>
+              Truck
+            </span>
+            <span class="text-white font-bold">$99</span>
+          </div>
+        </div>
+
+        <div class="bg-brand-black/50 rounded-xl p-4 mb-5">
+          <p class="text-xs font-bold text-brand-blue uppercase tracking-wider mb-3">Includes</p>
+          <ul class="check-list space-y-1.5 text-sm text-brand-silver list-none">
+            <li>Exterior Wash</li>
+            <li>Wheels Cleaned (Face)</li>
+            <li>Tire Shine</li>
+            <li>Quick Vacuum</li>
+            <li>Light Wipe Down</li>
+          </ul>
+        </div>
+
+        <a href="sms:3142088766?body=Hi! I'd like to book an Express Detail."
+          class="mt-auto w-full text-center bg-brand-blue/10 hover:bg-brand-blue/20 border border-brand-blue/40 text-brand-blue font-bold py-3 rounded-xl text-sm transition-colors">
+          Book Express
+        </a>
+      </div>
+    </div>
+
+    <!-- ── PREMIUM ── -->
+    <div class="pricing-card gold bg-brand-card border border-brand-blue/40 rounded-2xl overflow-hidden shadow-card flex flex-col relative">
+      <div class="absolute top-4 right-4"><span class="badge-popular text-white">Most Popular</span></div>
+      <div class="bg-gradient-to-r from-brand-blue/30 to-transparent border-b border-brand-blue/30 px-6 pt-6 pb-5">
+        <div class="flex items-center gap-2 mb-3">
+          <svg class="w-6 h-6 text-brand-blue" fill="currentColor" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <span class="text-xs font-bold tracking-widest text-brand-blue uppercase">Premium Detail</span>
+        </div>
+        <h3 class="text-2xl font-black text-white mb-1">Step Up Package</h3>
+        <p class="text-brand-silver/70 text-xs">1.5–3 Hours</p>
+      </div>
+
+      <div class="px-6 py-5 flex-1 flex flex-col">
+        <div class="space-y-2 mb-6">
+          <div class="flex justify-between items-center py-2 border-b border-brand-border/50">
+            <span class="text-sm text-brand-silver flex items-center gap-2">
+              <svg class="w-4 h-4 text-brand-silver/40" fill="currentColor" viewBox="0 0 24 24"><path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99z"/></svg>
+              Sedan
+            </span>
+            <span class="text-white font-bold">$159–$179</span>
+          </div>
+          <div class="flex justify-between items-center py-2 border-b border-brand-border/50">
+            <span class="text-sm text-brand-silver flex items-center gap-2">
+              <svg class="w-4 h-4 text-brand-silver/40" fill="currentColor" viewBox="0 0 24 24"><path d="M20 8h-3L14.5 4h-5L7 8H4a2 2 0 00-2 2v6h2v2h2v-2h12v2h2v-2h2v-6a2 2 0 00-2-2z"/></svg>
+              SUV
+            </span>
+            <span class="text-white font-bold">$179–$199</span>
+          </div>
+          <div class="flex justify-between items-center py-2">
+            <span class="text-sm text-brand-silver flex items-center gap-2">
+              <svg class="w-4 h-4 text-brand-silver/40" fill="currentColor" viewBox="0 0 24 24"><path d="M20 8H4L2 12v4h2v2h2v-2h12v2h2v-2h2v-4l-2-4zM6.5 15a1.5 1.5 0 110-3 1.5 1.5 0 010 3zm11 0a1.5 1.5 0 110-3 1.5 1.5 0 010 3z"/></svg>
+              Truck
+            </span>
+            <span class="text-white font-bold">$199–$219</span>
+          </div>
+        </div>
+
+        <div class="bg-brand-black/50 rounded-xl p-4 mb-5">
+          <p class="text-xs font-bold text-brand-blue uppercase tracking-wider mb-3">Includes</p>
+          <ul class="check-list space-y-1.5 text-sm text-brand-silver list-none">
+            <li>Everything in Express</li>
+            <li>Deep Interior Cleaning</li>
+            <li>Light Stain Removal</li>
+            <li>Floor Mats Cleaned</li>
+            <li>Spray Wax Protection</li>
+          </ul>
+        </div>
+
+        <a href="sms:3142088766?body=Hi! I'd like to book a Premium Detail."
+          class="mt-auto w-full text-center bg-brand-blue hover:bg-brand-blue-glow text-white font-bold py-3 rounded-xl text-sm transition-colors shadow-blue-glow">
+          Book Premium
+        </a>
+      </div>
+    </div>
+
+    <!-- ── FULL RESET ── -->
+    <div class="pricing-card red bg-brand-card border border-brand-red/30 rounded-2xl overflow-hidden shadow-card flex flex-col relative">
+      <div class="absolute top-4 right-4"><span class="badge-best text-white">Best Results</span></div>
+      <div class="bg-gradient-to-r from-brand-red/20 to-transparent border-b border-brand-red/20 px-6 pt-6 pb-5">
+        <div class="flex items-center gap-2 mb-3">
+          <svg class="w-6 h-6 text-brand-red" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>
+          <span class="text-xs font-bold tracking-widest text-brand-red uppercase">Full Reset Detail</span>
+        </div>
+        <h3 class="text-2xl font-black text-white mb-1">Deep Clean / Restoration</h3>
+        <p class="text-brand-silver/70 text-xs">3.5–4.5+ Hours</p>
+      </div>
+
+      <div class="px-6 py-5 flex-1 flex flex-col">
+        <div class="space-y-2 mb-6">
+          <div class="flex justify-between items-center py-2 border-b border-brand-border/50">
+            <span class="text-sm text-brand-silver flex items-center gap-2">
+              <svg class="w-4 h-4 text-brand-silver/40" fill="currentColor" viewBox="0 0 24 24"><path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99z"/></svg>
+              Sedan
+            </span>
+            <span class="text-white font-bold">$299</span>
+          </div>
+          <div class="flex justify-between items-center py-2 border-b border-brand-border/50">
+            <span class="text-sm text-brand-silver flex items-center gap-2">
+              <svg class="w-4 h-4 text-brand-silver/40" fill="currentColor" viewBox="0 0 24 24"><path d="M20 8h-3L14.5 4h-5L7 8H4a2 2 0 00-2 2v6h2v2h2v-2h12v2h2v-2h2v-6a2 2 0 00-2-2z"/></svg>
+              SUV
+            </span>
+            <span class="text-white font-bold">$349</span>
+          </div>
+          <div class="flex justify-between items-center py-2">
+            <span class="text-sm text-brand-silver flex items-center gap-2">
+              <svg class="w-4 h-4 text-brand-silver/40" fill="currentColor" viewBox="0 0 24 24"><path d="M20 8H4L2 12v4h2v2h2v-2h12v2h2v-2h2v-4l-2-4zM6.5 15a1.5 1.5 0 110-3 1.5 1.5 0 010 3zm11 0a1.5 1.5 0 110-3 1.5 1.5 0 010 3z"/></svg>
+              Truck
+            </span>
+            <span class="text-white font-bold">$399</span>
+          </div>
+        </div>
+
+        <div class="bg-brand-black/50 rounded-xl p-4 mb-5">
+          <p class="text-xs font-bold text-brand-red uppercase tracking-wider mb-3">Includes</p>
+          <ul class="check-list-red space-y-1.5 text-sm text-brand-silver list-none">
+            <li>Everything in Premium</li>
+            <li>Shampoo &amp; Extraction</li>
+            <li>Steam Cleaning</li>
+            <li>Odor Treatment</li>
+            <li>Leather Conditioning</li>
+            <li>Complete Restoration</li>
+          </ul>
+        </div>
+
+        <a href="sms:3142088766?body=Hi! I'd like to book a Full Reset Detail."
+          class="mt-auto w-full text-center bg-brand-red hover:bg-brand-red-glow text-white font-bold py-3 rounded-xl text-sm transition-colors shadow-red-glow">
+          Book Full Reset
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ ADD-ONS ═══════════ -->
+<section id="addons" class="px-5 py-16 md:py-20 bg-brand-darkgray border-y border-brand-border">
+  <div class="max-w-5xl mx-auto">
+    <div class="text-center mb-10">
+      <p class="text-brand-blue text-xs font-bold tracking-widest uppercase mb-2">Enhance Your Service</p>
+      <h2 class="text-3xl md:text-4xl font-black text-white">Add-On Services</h2>
+    </div>
+
+    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+      <!-- Engine Bay -->
+      <div class="bg-brand-card border border-brand-border rounded-xl p-4 text-center hover:border-brand-blue/40 transition-colors group">
+        <div class="w-10 h-10 rounded-lg bg-brand-blue/10 flex items-center justify-center mx-auto mb-3 group-hover:bg-brand-blue/20 transition-colors">
+          <svg class="w-5 h-5 text-brand-blue" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2a10 10 0 100 20A10 10 0 0012 2z"/><path d="M8 12h8M12 8v8"/></svg>
+        </div>
+        <p class="text-white font-bold text-sm leading-tight mb-1">Engine Bay Clean</p>
+        <p class="text-brand-blue font-semibold text-sm">$40+</p>
+      </div>
+      <!-- Wheel Wells -->
+      <div class="bg-brand-card border border-brand-border rounded-xl p-4 text-center hover:border-brand-blue/40 transition-colors group">
+        <div class="w-10 h-10 rounded-lg bg-brand-blue/10 flex items-center justify-center mx-auto mb-3 group-hover:bg-brand-blue/20 transition-colors">
+          <svg class="w-5 h-5 text-brand-blue" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/></svg>
+        </div>
+        <p class="text-white font-bold text-sm leading-tight mb-1">Wheel Wells Clean</p>
+        <p class="text-brand-blue font-semibold text-sm">$20–$40</p>
+      </div>
+      <!-- Pet Hair -->
+      <div class="bg-brand-card border border-brand-border rounded-xl p-4 text-center hover:border-brand-blue/40 transition-colors group">
+        <div class="w-10 h-10 rounded-lg bg-brand-blue/10 flex items-center justify-center mx-auto mb-3 group-hover:bg-brand-blue/20 transition-colors">
+          <svg class="w-5 h-5 text-brand-blue" fill="currentColor" viewBox="0 0 24 24"><path d="M4.5 6.375a4.125 4.125 0 118.25 0 4.125 4.125 0 01-8.25 0zM14.25 8.625a3.375 3.375 0 116.75 0 3.375 3.375 0 01-6.75 0zM1.5 19.125a7.125 7.125 0 0114.25 0v.003l-.001.119a.75.75 0 01-.363.63 13.067 13.067 0 01-6.761 1.873c-2.472 0-4.786-.684-6.76-1.873a.75.75 0 01-.364-.63l-.001-.122zM17.25 19.128l-.001.144a2.25 2.25 0 01-.233.96 10.088 10.088 0 005.06-1.01.75.75 0 00.42-.643 4.875 4.875 0 00-6.957-4.611 8.586 8.586 0 011.71 5.157v.003z"/></svg>
+        </div>
+        <p class="text-white font-bold text-sm leading-tight mb-1">Pet Hair Removal</p>
+        <p class="text-brand-blue font-semibold text-sm">$25+</p>
+      </div>
+      <!-- Odor Treatment -->
+      <div class="bg-brand-card border border-brand-border rounded-xl p-4 text-center hover:border-brand-blue/40 transition-colors group">
+        <div class="w-10 h-10 rounded-lg bg-brand-blue/10 flex items-center justify-center mx-auto mb-3 group-hover:bg-brand-blue/20 transition-colors">
+          <svg class="w-5 h-5 text-brand-blue" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2.69l5.66 5.66a8 8 0 11-11.31 0z"/></svg>
+        </div>
+        <p class="text-white font-bold text-sm leading-tight mb-1">Odor Treatment</p>
+        <p class="text-brand-blue font-semibold text-sm">$40+</p>
+      </div>
+      <!-- Leather -->
+      <div class="bg-brand-card border border-brand-border rounded-xl p-4 text-center hover:border-brand-blue/40 transition-colors group">
+        <div class="w-10 h-10 rounded-lg bg-brand-blue/10 flex items-center justify-center mx-auto mb-3 group-hover:bg-brand-blue/20 transition-colors">
+          <svg class="w-5 h-5 text-brand-blue" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+        </div>
+        <p class="text-white font-bold text-sm leading-tight mb-1">Leather Treatment</p>
+        <p class="text-brand-blue font-semibold text-sm">$40–$80</p>
+      </div>
+      <!-- Headlight -->
+      <div class="bg-brand-card border border-brand-border rounded-xl p-4 text-center hover:border-brand-blue/40 transition-colors group">
+        <div class="w-10 h-10 rounded-lg bg-brand-blue/10 flex items-center justify-center mx-auto mb-3 group-hover:bg-brand-blue/20 transition-colors">
+          <svg class="w-5 h-5 text-brand-blue" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+        </div>
+        <p class="text-white font-bold text-sm leading-tight mb-1">Headlight Restoration</p>
+        <p class="text-brand-blue font-semibold text-sm">$40+</p>
+      </div>
+    </div>
+
+    <p class="text-center text-brand-silver/50 text-xs mt-6">Add-ons can be combined with any detail package · Prices vary by vehicle condition</p>
+  </div>
+</section>
+
+<!-- ═══════════ MOBILE DETAILING BANNER ═══════════ -->
+<section id="mobile" class="px-5 py-12 md:py-16 max-w-6xl mx-auto">
+  <div class="relative overflow-hidden rounded-2xl border border-brand-blue/30 bg-gradient-to-br from-brand-blue/10 via-brand-card to-brand-black p-8 md:p-12 text-center md:text-left">
+    <!-- Decorative glow -->
+    <div class="absolute top-0 right-0 w-64 h-64 rounded-full bg-brand-blue/5 blur-3xl pointer-events-none"></div>
+
+    <div class="relative flex flex-col md:flex-row items-center gap-8">
+      <div class="flex-shrink-0 w-16 h-16 rounded-2xl bg-brand-blue/15 border border-brand-blue/30 flex items-center justify-center">
+        <svg class="w-8 h-8 text-brand-blue" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M1 3h15v13H1z"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+      </div>
+      <div class="flex-1">
+        <h2 class="text-2xl md:text-3xl font-black text-white mb-2">
+          We Come To <span class="text-gradient-blue">You!</span>
+        </h2>
+        <p class="text-brand-silver text-base md:text-lg font-semibold mb-2">Mobile Detailing Available Across St. Louis</p>
+        <p class="text-brand-silver/60 text-sm">No drop-off, no waiting. We bring everything needed directly to your home, office, or wherever your car is parked.</p>
+        <p class="text-brand-blue/80 text-sm font-semibold mt-2">+ $25–$40 travel fee depending on location</p>
+      </div>
+      <div class="flex-shrink-0">
+        <a href="sms:3142088766?body=Hi! I'm interested in mobile detailing."
+          class="inline-flex items-center gap-2 bg-brand-blue hover:bg-brand-blue-glow text-white font-bold px-6 py-3 rounded-xl transition-colors shadow-blue-glow text-sm whitespace-nowrap">
+          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M20 2H4a2 2 0 00-2 2v18l4-4h14a2 2 0 002-2V4a2 2 0 00-2-2z"/></svg>
+          Text to Book Mobile
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ BOOKING SECTION ═══════════ -->
+<section id="booking" class="px-5 py-16 md:py-24 bg-brand-darkgray border-t border-brand-border">
+  <div class="max-w-4xl mx-auto">
+    <div class="text-center mb-10">
+      <p class="text-brand-blue text-xs font-bold tracking-widest uppercase mb-2">Schedule Online</p>
+      <h2 class="text-3xl md:text-4xl font-black text-white mb-3">Book Your Appointment</h2>
+      <p class="text-brand-silver text-sm md:text-base max-w-lg mx-auto">
+        Pick a time that works for you. Or skip the form — just text <span class="text-white font-bold">314-208-8766</span> and get <span class="text-brand-blue font-bold">10% off</span>.
+      </p>
+    </div>
+
+    <!-- Booking form card -->
+    <div class="bg-brand-card border border-brand-border rounded-2xl overflow-hidden shadow-card">
+      <!-- Tab bar -->
+      <div class="flex border-b border-brand-border">
+        <button id="tab-form" onclick="switchTab('form')" class="flex-1 py-4 text-sm font-bold text-white border-b-2 border-brand-blue">
+          Quick Request
+        </button>
+        <button id="tab-cal" onclick="switchTab('cal')" class="flex-1 py-4 text-sm font-bold text-brand-silver/60 hover:text-white border-b-2 border-transparent transition-colors">
+          View Calendar
+        </button>
+      </div>
+
+      <!-- Quick Request Form -->
+      <div id="panel-form" class="p-6 md:p-8">
+        <form id="booking-form" onsubmit="submitBooking(event)" class="space-y-4">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs font-semibold text-brand-silver/70 uppercase tracking-wider mb-1.5">Your Name</label>
+              <input type="text" required placeholder="First &amp; Last Name" class="w-full bg-brand-black border border-brand-border rounded-lg px-4 py-3 text-white text-sm placeholder-brand-silver/30 focus:outline-none focus:border-brand-blue/60 transition-colors" />
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-brand-silver/70 uppercase tracking-wider mb-1.5">Phone Number</label>
+              <input type="tel" required placeholder="(314) 000-0000" class="w-full bg-brand-black border border-brand-border rounded-lg px-4 py-3 text-white text-sm placeholder-brand-silver/30 focus:outline-none focus:border-brand-blue/60 transition-colors" />
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs font-semibold text-brand-silver/70 uppercase tracking-wider mb-1.5">Package</label>
+              <select required class="w-full bg-brand-black border border-brand-border rounded-lg px-4 py-3 text-white text-sm focus:outline-none focus:border-brand-blue/60 transition-colors appearance-none">
+                <option value="" disabled selected>Select a package…</option>
+                <option>Express Detail – Sedan ($79)</option>
+                <option>Express Detail – SUV ($89)</option>
+                <option>Express Detail – Truck ($99)</option>
+                <option>Premium Detail – Sedan ($159–$179)</option>
+                <option>Premium Detail – SUV ($179–$199)</option>
+                <option>Premium Detail – Truck ($199–$219)</option>
+                <option>Full Reset Detail – Sedan ($299)</option>
+                <option>Full Reset Detail – SUV ($349)</option>
+                <option>Full Reset Detail – Truck ($399)</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-brand-silver/70 uppercase tracking-wider mb-1.5">Vehicle</label>
+              <input type="text" placeholder="Year, Make &amp; Model" class="w-full bg-brand-black border border-brand-border rounded-lg px-4 py-3 text-white text-sm placeholder-brand-silver/30 focus:outline-none focus:border-brand-blue/60 transition-colors" />
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs font-semibold text-brand-silver/70 uppercase tracking-wider mb-1.5">Preferred Date</label>
+              <input type="date" required class="w-full bg-brand-black border border-brand-border rounded-lg px-4 py-3 text-white text-sm focus:outline-none focus:border-brand-blue/60 transition-colors [color-scheme:dark]" />
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-brand-silver/70 uppercase tracking-wider mb-1.5">Preferred Time</label>
+              <select class="w-full bg-brand-black border border-brand-border rounded-lg px-4 py-3 text-white text-sm focus:outline-none focus:border-brand-blue/60 transition-colors appearance-none">
+                <option>Morning (8am–11am)</option>
+                <option>Midday (11am–2pm)</option>
+                <option>Afternoon (2pm–5pm)</option>
+              </select>
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold text-brand-silver/70 uppercase tracking-wider mb-1.5">Location / Notes</label>
+            <textarea rows="3" placeholder="Your address or location, add-ons, vehicle condition, or anything we should know…" class="w-full bg-brand-black border border-brand-border rounded-lg px-4 py-3 text-white text-sm placeholder-brand-silver/30 focus:outline-none focus:border-brand-blue/60 transition-colors resize-none"></textarea>
+          </div>
+
+          <button type="submit" class="w-full bg-brand-blue hover:bg-brand-blue-glow text-white font-extrabold py-4 rounded-xl transition-colors shadow-blue-glow text-base">
+            Send Booking Request
+          </button>
+        </form>
+
+        <!-- Success message (hidden) -->
+        <div id="booking-success" class="hidden text-center py-10">
+          <div class="w-16 h-16 rounded-full bg-brand-blue/20 flex items-center justify-center mx-auto mb-4">
+            <svg class="w-8 h-8 text-brand-blue" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+          </div>
+          <h3 class="text-xl font-bold text-white mb-2">Request Received!</h3>
+          <p class="text-brand-silver text-sm">We'll text you shortly to confirm your appointment. Or reach us directly at <span class="text-brand-blue font-bold">314-208-8766</span>.</p>
+        </div>
+      </div>
+
+      <!-- Calendar Panel -->
+      <div id="panel-cal" class="hidden p-6 md:p-8">
+        <div class="text-center mb-6">
+          <p class="text-brand-silver text-sm mb-4">View available slots on the Pure Finish STL calendar. Click any open time to request a booking.</p>
+          <a href="https://calendar.google.com/calendar/appointments/schedules/YOUR_SCHEDULE_ID" target="_blank" rel="noopener"
+            class="inline-flex items-center gap-2 bg-brand-blue hover:bg-brand-blue-glow text-white font-bold px-6 py-3 rounded-xl transition-colors shadow-blue-glow text-sm">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+            Open Booking Calendar
+          </a>
+        </div>
+
+        <!-- Embedded calendar placeholder -->
+        <div class="rounded-xl overflow-hidden border border-brand-border bg-brand-black" id="cal-embed-container">
+          <div class="flex flex-col items-center justify-center py-16 text-center px-4">
+            <svg class="w-12 h-12 text-brand-blue/40 mb-4" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/><circle cx="8" cy="15" r="1"/><circle cx="12" cy="15" r="1"/><circle cx="16" cy="15" r="1"/></svg>
+            <p class="text-brand-silver/60 text-sm font-medium mb-1">Google Calendar Booking</p>
+            <p class="text-brand-silver/40 text-xs max-w-xs">
+              To embed your live calendar, replace <code class="text-brand-blue/80">YOUR_SCHEDULE_ID</code> in the code with your Google Appointment Scheduling link ID.
+            </p>
+            <a href="#" onclick="openCalSetup(); return false;" class="mt-4 text-brand-blue text-xs underline underline-offset-2">How to set this up →</a>
+          </div>
+        </div>
+
+        <!-- Setup instructions modal trigger note -->
+        <p class="text-center text-brand-silver/40 text-xs mt-4">
+          Need help? Text <span class="text-white">314-208-8766</span> to book directly.
+        </p>
+      </div>
+    </div>
+
+    <!-- Direct SMS fallback -->
+    <div class="mt-6 flex flex-col sm:flex-row items-center justify-center gap-4 text-sm">
+      <a href="sms:3142088766" class="flex items-center gap-2 text-brand-blue font-bold hover:underline">
+        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M20 2H4a2 2 0 00-2 2v18l4-4h14a2 2 0 002-2V4a2 2 0 00-2-2z"/></svg>
+        Text 314-208-8766
+      </a>
+      <span class="text-brand-silver/30 hidden sm:block">·</span>
+      <a href="https://instagram.com/purefinishstl" target="_blank" rel="noopener" class="flex items-center gap-2 text-brand-silver/60 hover:text-white transition-colors">
+        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+        @purefinishstl
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ FOOTER ═══════════ -->
+<footer class="bg-brand-black border-t border-brand-border px-5 py-10 text-center">
+  <div class="max-w-4xl mx-auto">
+    <p class="text-2xl font-black text-white mb-1">
+      PURE<span class="text-gradient-blue">FINISH</span><span class="text-gradient-red"> STL</span>
+    </p>
+    <p class="text-brand-silver/50 text-xs tracking-widest uppercase mb-6">Auto Detailing · St. Louis, MO</p>
+
+    <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-8">
+      <a href="sms:3142088766"
+        class="inline-flex items-center gap-2 bg-brand-blue text-white font-extrabold px-6 py-3 rounded-xl text-sm shadow-blue-glow hover:bg-brand-blue-glow transition-colors">
+        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M20 2H4a2 2 0 00-2 2v18l4-4h14a2 2 0 002-2V4a2 2 0 00-2-2z"/></svg>
+        TEXT 314-208-8766 · SAVE 10%
+      </a>
+      <a href="https://instagram.com/purefinishstl" target="_blank" rel="noopener"
+        class="inline-flex items-center gap-2 border border-brand-border hover:border-brand-blue/40 text-brand-silver hover:text-white px-6 py-3 rounded-xl text-sm transition-colors">
+        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+        @purefinishstl
+      </a>
+    </div>
+
+    <div class="divider mb-6"></div>
+    <p class="text-brand-silver/30 text-xs">© 2025 Pure Finish STL · All rights reserved · 100% Satisfaction Guaranteed</p>
+  </div>
+</footer>
+
+<!-- ═══════════ CALENDAR SETUP MODAL ═══════════ -->
+<div id="cal-setup-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-5 bg-black/80 modal-overlay" onclick="if(event.target===this)closeCalSetup()">
+  <div class="bg-brand-card border border-brand-border rounded-2xl max-w-lg w-full p-6 md:p-8 modal-box">
+    <div class="flex items-start justify-between mb-4">
+      <h3 class="text-lg font-black text-white">Connect Google Calendar</h3>
+      <button onclick="closeCalSetup()" class="text-brand-silver/40 hover:text-white ml-4">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <ol class="space-y-4 text-sm text-brand-silver">
+      <li class="flex gap-3">
+        <span class="flex-shrink-0 w-6 h-6 rounded-full bg-brand-blue/20 text-brand-blue text-xs font-bold flex items-center justify-center">1</span>
+        <div>
+          <p class="text-white font-semibold mb-0.5">Create Appointment Schedule</p>
+          <p class="text-brand-silver/60">In Google Calendar → click <strong>+</strong> → <em>Appointment schedule</em>. Set your working hours, buffer times, and slot duration.</p>
+        </div>
+      </li>
+      <li class="flex gap-3">
+        <span class="flex-shrink-0 w-6 h-6 rounded-full bg-brand-blue/20 text-brand-blue text-xs font-bold flex items-center justify-center">2</span>
+        <div>
+          <p class="text-white font-semibold mb-0.5">Copy Your Booking Link</p>
+          <p class="text-brand-silver/60">After saving, click <em>View booking page</em>. Copy the full URL — it ends with your Schedule ID.</p>
+        </div>
+      </li>
+      <li class="flex gap-3">
+        <span class="flex-shrink-0 w-6 h-6 rounded-full bg-brand-blue/20 text-brand-blue text-xs font-bold flex items-center justify-center">3</span>
+        <div>
+          <p class="text-white font-semibold mb-0.5">Update This Website</p>
+          <p class="text-brand-silver/60">In <code class="text-brand-blue/80">index.html</code>, find <code class="text-brand-blue/80">YOUR_SCHEDULE_ID</code> and replace it with your actual schedule URL. That's it!</p>
+        </div>
+      </li>
+    </ol>
+    <div class="mt-6 p-4 bg-brand-blue/10 border border-brand-blue/20 rounded-xl">
+      <p class="text-xs text-brand-blue/80 font-semibold mb-1">Pro tip</p>
+      <p class="text-xs text-brand-silver/60">Google Appointment Schedules automatically block out times when you're busy on your Google Calendar — so clients can only book slots you're actually free.</p>
+    </div>
+    <button onclick="closeCalSetup()" class="mt-6 w-full bg-brand-blue hover:bg-brand-blue-glow text-white font-bold py-3 rounded-xl text-sm transition-colors">
+      Got it!
+    </button>
+  </div>
+</div>
+
+<script>
+  // ── Tab switching ──
+  function switchTab(tab) {
+    const tabs = ['form', 'cal'];
+    tabs.forEach(t => {
+      document.getElementById('panel-' + t).classList.toggle('hidden', t !== tab);
+      const btn = document.getElementById('tab-' + t);
+      btn.classList.toggle('text-white', t === tab);
+      btn.classList.toggle('border-brand-blue', t === tab);
+      btn.classList.toggle('text-brand-silver/60', t !== tab);
+      btn.classList.toggle('border-transparent', t !== tab);
+    });
+  }
+
+  // ── Booking form submit ──
+  function submitBooking(e) {
+    e.preventDefault();
+    const form = document.getElementById('booking-form');
+    const success = document.getElementById('booking-success');
+
+    // Build SMS with form data
+    const inputs = form.querySelectorAll('input, select, textarea');
+    let msg = 'New booking request from Pure Finish STL website:\n';
+    const labels = ['Name', 'Phone', 'Package', 'Vehicle', 'Date', 'Time', 'Notes'];
+    inputs.forEach((el, i) => { if (el.value) msg += labels[i] + ': ' + el.value + '\n'; });
+
+    // Open SMS to yourself (business owner)
+    window.location.href = 'sms:3142088766?body=' + encodeURIComponent(msg);
+
+    // Show success UI
+    form.classList.add('hidden');
+    success.classList.remove('hidden');
+  }
+
+  // ── Calendar setup modal ──
+  function openCalSetup() {
+    const modal = document.getElementById('cal-setup-modal');
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+  }
+  function closeCalSetup() {
+    const modal = document.getElementById('cal-setup-modal');
+    modal.classList.add('hidden');
+    modal.classList.remove('flex');
+  }
+
+  // Set min date for date picker to today
+  const datePicker = document.querySelector('input[type="date"]');
+  if (datePicker) {
+    const today = new Date().toISOString().split('T')[0];
+    datePicker.min = today;
+  }
+</script>
+
+<!-- Bottom padding for mobile sticky bar -->
+<div class="h-12 md:hidden"></div>
+
+</body>
+</html>
