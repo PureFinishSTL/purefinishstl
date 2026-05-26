@@ -117,9 +117,9 @@
 
 <!-- ═══════════ NAVBAR ═══════════ -->
 <nav class="relative z-40 flex items-center justify-between px-5 py-4 md:px-10">
-  <a href="#" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;" class="flex items-center gap-2">
+  <a href="#" id="nav-logo" onclick="animateLogo();window.scrollTo({top:0,behavior:'smooth'});return false;" class="flex items-center gap-2 transition-transform duration-150">
     <img src="logo.jpg" alt="Pure Finish STL Logo" class="h-10 w-10 rounded-full object-cover" />
-    <span class="text-xl font-black tracking-tight text-white">PURE<span class="text-gradient-blue">FINISH</span></span>
+    <span class="text-xl font-black tracking-tight text-white">PURE <span class="text-gradient-blue">FINISH</span></span>
     <span class="text-xs font-bold tracking-widest text-brand-silver mt-0.5">STL</span>
   </a>
   <div class="hidden md:flex items-center gap-8 text-sm font-semibold text-brand-silver">
@@ -430,7 +430,7 @@
       </div>
       <div class="flex-1">
         <h2 class="text-2xl md:text-3xl font-black text-white mb-2">
-          We Come To <span class="text-gradient-blue">You!</span>
+          We Come To <span class="text-gradient-blue">You!</span> <span class="text-sm font-normal text-brand-silver/60 align-middle">$25–$40 travel fee depending on location</span>
         </h2>
         <p class="text-brand-silver text-base md:text-lg font-semibold mb-2">Mobile Detailing Available Across St. Louis</p>
         <p class="text-brand-silver/60 text-sm">No drop-off, no waiting. We bring everything needed directly to your home, office, or wherever your car is parked.</p>
@@ -655,6 +655,15 @@
 </div>
 
 <script>
+  // ── Logo click animation ──
+  function animateLogo() {
+    const el = document.getElementById('nav-logo');
+    el.style.transition = 'transform 0.12s ease';
+    el.style.transform = 'scale(0.88)';
+    setTimeout(() => { el.style.transform = 'scale(1.08)'; }, 120);
+    setTimeout(() => { el.style.transform = 'scale(1)'; }, 240);
+  }
+
   // ── Tab switching ──
   function switchTab(tab) {
     const tabs = ['form', 'cal'];
