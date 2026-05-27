@@ -773,7 +773,8 @@
             <svg class="w-8 h-8 text-brand-blue" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
           </div>
           <h3 class="text-xl font-bold text-white mb-2">Request Received!</h3>
-          <p class="text-brand-silver text-sm">We'll DM you shortly to confirm your appointment. Or reach us directly on Instagram at <a href="https://instagram.com/purefinishstl" target="_blank" rel="noopener" class="text-brand-blue font-bold hover:underline">@PureFinishSTL</a>.</p>
+          <p class="text-brand-silver text-sm mb-3">Your booking info has been <span class="text-white font-semibold">copied to your clipboard</span>. Instagram is opening now — just <span class="text-brand-blue font-semibold">paste it into the DM</span> and send!</p>
+          <div class="bg-brand-blue/10 border border-brand-blue/20 rounded-lg px-4 py-2 text-xs text-brand-blue/80">Tip: tap the message box and press <strong>Paste</strong> to send your full booking details.</div>
         </div>
       </div>
 
@@ -971,10 +972,25 @@
     const form = document.getElementById('booking-form');
     const success = document.getElementById('booking-success');
 
-    // Open Instagram DM
-    window.open('https://instagram.com/purefinishstl', '_blank');
+    // Build booking summary from form fields
+    const inputs = form.querySelectorAll('input, select, textarea');
+    const labels = ['Name', 'Phone', 'Package', 'Vehicle', 'Date', 'Time', 'Notes'];
+    let msg = 'Hi! Here is my booking request:\n\n';
+    inputs.forEach((el, i) => {
+      if (el.value && el.value !== 'build') msg += labels[i] + ': ' + el.value + '\n';
+    });
+    // Include any Build Your Own selections
+    const buildChecks = form.querySelectorAll('.form-build-check:checked');
+    if (buildChecks.length > 0) {
+      msg += 'Selected Services: ' + Array.from(buildChecks).map(c => c.dataset.label).join(', ') + '\n';
+    }
 
-    // Show success UI
+    // Copy to clipboard then open Instagram DM
+    navigator.clipboard.writeText(msg).catch(() => {}).finally(() => {
+      window.open('https://ig.me/m/purefinishstl', '_blank');
+    });
+
+    // Show success UI with paste reminder
     form.classList.add('hidden');
     success.classList.remove('hidden');
   }
