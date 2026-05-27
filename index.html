@@ -573,15 +573,92 @@
         <p class="text-brand-blue/80 text-sm font-semibold mt-2">+ $25–$40 travel fee depending on location</p>
       </div>
       <div class="flex-shrink-0">
-        <a href="https://instagram.com/purefinishstl" target="_blank" rel="noopener"
+        <button onclick="openMobileModal()"
           class="inline-flex items-center gap-2 bg-brand-blue hover:bg-brand-blue-glow text-white font-bold px-6 py-3 rounded-xl transition-colors shadow-blue-glow text-sm whitespace-nowrap">
           <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
           DM to Book Mobile
-        </a>
+        </button>
       </div>
     </div>
   </div>
 </section>
+
+<!-- ═══════════ MOBILE BOOKING MODAL ═══════════ -->
+<div id="mobile-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center px-4" role="dialog" aria-modal="true">
+  <!-- Backdrop -->
+  <div class="absolute inset-0 bg-black/75 backdrop-blur-sm" onclick="closeMobileModal()"></div>
+
+  <!-- Panel -->
+  <div class="relative w-full max-w-md bg-brand-card border border-brand-border rounded-2xl shadow-card overflow-hidden">
+
+    <!-- Header -->
+    <div class="flex items-center justify-between px-6 pt-6 pb-4 border-b border-brand-border">
+      <div>
+        <p class="text-xs font-bold text-brand-blue uppercase tracking-widest mb-0.5">Mobile Detailing</p>
+        <h3 class="text-xl font-black text-white">Quick Mobile Request</h3>
+      </div>
+      <button onclick="closeMobileModal()" class="w-8 h-8 rounded-full bg-brand-black/60 flex items-center justify-center text-brand-silver/60 hover:text-white transition-colors text-lg leading-none">✕</button>
+    </div>
+
+    <!-- Form -->
+    <form id="mobile-form" onsubmit="submitMobileBooking(event)" class="p-6 space-y-4">
+      <div class="grid grid-cols-2 gap-3">
+        <div>
+          <label class="block text-xs font-semibold text-brand-silver/70 uppercase tracking-wider mb-1.5">Your Name</label>
+          <input id="mb-name" type="text" required placeholder="First &amp; Last" class="w-full bg-brand-black border border-brand-border rounded-lg px-3 py-2.5 text-white text-sm placeholder-brand-silver/30 focus:outline-none focus:border-brand-blue/60 transition-colors" />
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-brand-silver/70 uppercase tracking-wider mb-1.5">Phone</label>
+          <input id="mb-phone" type="tel" required placeholder="(314) 000-0000" class="w-full bg-brand-black border border-brand-border rounded-lg px-3 py-2.5 text-white text-sm placeholder-brand-silver/30 focus:outline-none focus:border-brand-blue/60 transition-colors" />
+        </div>
+      </div>
+      <div>
+        <label class="block text-xs font-semibold text-brand-silver/70 uppercase tracking-wider mb-1.5">Vehicle</label>
+        <input id="mb-vehicle" type="text" placeholder="Year, Make &amp; Model" class="w-full bg-brand-black border border-brand-border rounded-lg px-3 py-2.5 text-white text-sm placeholder-brand-silver/30 focus:outline-none focus:border-brand-blue/60 transition-colors" />
+      </div>
+      <div>
+        <label class="block text-xs font-semibold text-brand-silver/70 uppercase tracking-wider mb-1.5">Your Location</label>
+        <input id="mb-location" type="text" placeholder="Address or area in St. Louis" class="w-full bg-brand-black border border-brand-border rounded-lg px-3 py-2.5 text-white text-sm placeholder-brand-silver/30 focus:outline-none focus:border-brand-blue/60 transition-colors" />
+      </div>
+      <div class="grid grid-cols-2 gap-3">
+        <div>
+          <label class="block text-xs font-semibold text-brand-silver/70 uppercase tracking-wider mb-1.5">Preferred Date</label>
+          <input id="mb-date" type="date" class="w-full bg-brand-black border border-brand-border rounded-lg px-3 py-2.5 text-white text-sm focus:outline-none focus:border-brand-blue/60 transition-colors [color-scheme:dark]" />
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-brand-silver/70 uppercase tracking-wider mb-1.5">Preferred Time</label>
+          <select id="mb-time" class="w-full bg-brand-black border border-brand-border rounded-lg px-3 py-2.5 text-white text-sm focus:outline-none focus:border-brand-blue/60 transition-colors appearance-none">
+            <option value="" disabled selected>Time…</option>
+            <option>8:00 AM</option><option>9:00 AM</option><option>10:00 AM</option><option>11:00 AM</option>
+            <option>12:00 PM</option><option>1:00 PM</option><option>2:00 PM</option><option>3:00 PM</option>
+            <option>4:00 PM</option><option>5:00 PM</option><option>6:00 PM</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="flex items-start gap-2.5 bg-brand-blue/10 border border-brand-blue/20 rounded-xl px-4 py-3">
+        <span class="text-base leading-none mt-0.5">📋</span>
+        <p class="text-xs text-brand-silver/70 leading-relaxed">Your request will be <span class="text-white font-semibold">copied to your clipboard</span>. Instagram opens — just <span class="text-white font-semibold">paste &amp; send!</span></p>
+      </div>
+
+      <button type="submit" class="w-full bg-brand-blue hover:bg-brand-blue-glow text-white font-extrabold py-3.5 rounded-xl transition-colors shadow-blue-glow text-sm flex items-center justify-center gap-2">
+        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+        Send via Instagram DM
+      </button>
+    </form>
+
+    <!-- Success state -->
+    <div id="mobile-success" class="hidden px-6 pb-8 pt-4 text-center">
+      <div class="w-14 h-14 rounded-full bg-brand-blue/20 flex items-center justify-center mx-auto mb-4">
+        <svg class="w-7 h-7 text-brand-blue" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+      </div>
+      <h4 class="text-lg font-black text-white mb-2">Copied to Clipboard!</h4>
+      <p class="text-brand-silver text-sm mb-3">Instagram is opening now — tap the message box and <span class="text-brand-blue font-semibold">paste</span> to send your request.</p>
+      <div class="bg-brand-blue/10 border border-brand-blue/20 rounded-lg px-4 py-2 text-xs text-brand-blue/80 mb-4">Tip: press and hold the message box, then tap <strong>Paste</strong>.</div>
+      <button onclick="closeMobileModal()" class="text-brand-silver/50 hover:text-white text-xs transition-colors">Close</button>
+    </div>
+  </div>
+</div>
 
 <!-- ═══════════ BOOKING SECTION ═══════════ -->
 <section id="booking" class="px-5 py-16 md:py-24 bg-brand-darkgray border-t border-brand-border">
@@ -1070,6 +1147,53 @@ Please let me know your availability. Thank you!`;
     // Show success UI with paste reminder
     form.classList.add('hidden');
     success.classList.remove('hidden');
+  }
+
+  // ── Mobile Booking Modal ──
+  function openMobileModal() {
+    const modal = document.getElementById('mobile-modal');
+    document.getElementById('mobile-form').classList.remove('hidden');
+    document.getElementById('mobile-success').classList.add('hidden');
+    modal.classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeMobileModal() {
+    document.getElementById('mobile-modal').classList.add('hidden');
+    document.body.style.overflow = '';
+  }
+  function submitMobileBooking(e) {
+    e.preventDefault();
+    const name     = document.getElementById('mb-name').value.trim();
+    const phone    = document.getElementById('mb-phone').value.trim();
+    const vehicle  = document.getElementById('mb-vehicle').value.trim();
+    const location = document.getElementById('mb-location').value.trim();
+    const date     = document.getElementById('mb-date').value;
+    const time     = document.getElementById('mb-time').value;
+
+    let dateStr = date;
+    if (date) {
+      const d = new Date(date + 'T00:00:00');
+      dateStr = d.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+    }
+
+    let msg = `Hi! I'd like to book a mobile detail with Pure Finish STL.\n\n`;
+    msg += `📍 MOBILE DETAIL REQUEST\n`;
+    msg += `──────────────────────────\n`;
+    if (name)     msg += `👤 Name:      ${name}\n`;
+    if (phone)    msg += `📞 Phone:     ${phone}\n`;
+    if (vehicle)  msg += `🚘 Vehicle:   ${vehicle}\n`;
+    if (location) msg += `📍 Location:  ${location}\n`;
+    if (dateStr)  msg += `📅 Date:      ${dateStr}\n`;
+    if (time)     msg += `⏰ Time:      ${time}\n`;
+    msg += `\nNote: I understand there is a $25–$40 travel fee depending on location.\n`;
+    msg += `\nPlease let me know your availability. Thank you!`;
+
+    navigator.clipboard.writeText(msg).catch(() => {}).finally(() => {
+      window.open('https://ig.me/m/purefinishstl', '_blank');
+    });
+
+    document.getElementById('mobile-form').classList.add('hidden');
+    document.getElementById('mobile-success').classList.remove('hidden');
   }
 
   // ── Calendar setup modal ──
