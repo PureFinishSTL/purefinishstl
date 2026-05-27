@@ -773,7 +773,7 @@
             <svg class="w-8 h-8 text-brand-blue" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
           </div>
           <h3 class="text-xl font-bold text-white mb-2">Request Received!</h3>
-          <p class="text-brand-silver text-sm">We'll text you shortly to confirm your appointment. Or reach us directly at <span class="text-brand-blue font-bold">314-208-8766 OR 636-751-3897</span>.</p>
+          <p class="text-brand-silver text-sm">We'll DM you shortly to confirm your appointment. Or reach us directly on Instagram at <a href="https://instagram.com/purefinishstl" target="_blank" rel="noopener" class="text-brand-blue font-bold hover:underline">@PureFinishSTL</a>.</p>
         </div>
       </div>
 
@@ -971,14 +971,8 @@
     const form = document.getElementById('booking-form');
     const success = document.getElementById('booking-success');
 
-    // Build SMS with form data
-    const inputs = form.querySelectorAll('input, select, textarea');
-    let msg = 'New booking request from Pure Finish STL website:\n';
-    const labels = ['Name', 'Phone', 'Package', 'Vehicle', 'Date', 'Time', 'Notes'];
-    inputs.forEach((el, i) => { if (el.value) msg += labels[i] + ': ' + el.value + '\n'; });
-
-    // Open SMS to yourself (business owner)
-    window.location.href = 'sms:3142088766?body=' + encodeURIComponent(msg);
+    // Open Instagram DM
+    window.open('https://instagram.com/purefinishstl', '_blank');
 
     // Show success UI
     form.classList.add('hidden');
