@@ -582,7 +582,7 @@
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label class="block text-xs font-semibold text-brand-silver/70 uppercase tracking-wider mb-1.5">Package</label>
-              <select required class="w-full bg-brand-black border border-brand-border rounded-lg px-4 py-3 text-white text-sm focus:outline-none focus:border-brand-blue/60 transition-colors appearance-none">
+              <select id="form-package-select" required onchange="toggleFormBuilder(this.value)" class="w-full bg-brand-black border border-brand-border rounded-lg px-4 py-3 text-white text-sm focus:outline-none focus:border-brand-blue/60 transition-colors appearance-none">
                 <option value="" disabled selected>Select a package…</option>
                 <option>Express Detail – Sedan ($79)</option>
                 <option>Express Detail – SUV ($89)</option>
@@ -593,11 +593,78 @@
                 <option>Full Reset Detail – Sedan ($299)</option>
                 <option>Full Reset Detail – SUV ($349)</option>
                 <option>Full Reset Detail – Truck ($399)</option>
+                <option value="build">Build Your Own Detail</option>
               </select>
             </div>
             <div>
               <label class="block text-xs font-semibold text-brand-silver/70 uppercase tracking-wider mb-1.5">Vehicle</label>
               <input type="text" placeholder="Year, Make &amp; Model" class="w-full bg-brand-black border border-brand-border rounded-lg px-4 py-3 text-white text-sm placeholder-brand-silver/30 focus:outline-none focus:border-brand-blue/60 transition-colors" />
+            </div>
+          </div>
+
+          <!-- Build Your Own panel (hidden by default) -->
+          <div id="form-builder-panel" class="hidden bg-brand-black border border-brand-blue/20 rounded-xl p-5 space-y-4">
+            <p class="text-xs font-bold text-brand-blue uppercase tracking-widest mb-1">Pick Your Services</p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <!-- Exterior -->
+              <div>
+                <p class="text-xs font-semibold text-brand-silver/50 uppercase tracking-wider mb-2">Exterior</p>
+                <div class="space-y-2">
+                  <label class="flex items-center justify-between p-2.5 rounded-lg border border-brand-border hover:border-brand-blue/30 cursor-pointer transition-colors">
+                    <div class="flex items-center gap-2">
+                      <input type="checkbox" class="form-build-check w-4 h-4 accent-blue-500" data-label="Basic Wash" onchange="updateFormBuilder()">
+                      <span class="text-white text-sm">Basic Wash</span>
+                    </div>
+                    <span class="text-brand-blue text-xs font-semibold">$30–$50</span>
+                  </label>
+                  <label class="flex items-center justify-between p-2.5 rounded-lg border border-brand-border hover:border-brand-blue/30 cursor-pointer transition-colors">
+                    <div class="flex items-center gap-2">
+                      <input type="checkbox" class="form-build-check w-4 h-4 accent-blue-500" data-label="Wash + Protection" onchange="updateFormBuilder()">
+                      <span class="text-white text-sm">Wash + Protection</span>
+                    </div>
+                    <span class="text-brand-blue text-xs font-semibold">$90–$120</span>
+                  </label>
+                  <label class="flex items-center justify-between p-2.5 rounded-lg border border-brand-border hover:border-brand-blue/30 cursor-pointer transition-colors">
+                    <div class="flex items-center gap-2">
+                      <input type="checkbox" class="form-build-check w-4 h-4 accent-blue-500" data-label="Paint Decontamination" onchange="updateFormBuilder()">
+                      <span class="text-white text-sm">Paint Decontamination</span>
+                    </div>
+                    <span class="text-brand-blue text-xs font-semibold">$120–$250</span>
+                  </label>
+                </div>
+              </div>
+              <!-- Interior -->
+              <div>
+                <p class="text-xs font-semibold text-brand-silver/50 uppercase tracking-wider mb-2">Interior</p>
+                <div class="space-y-2">
+                  <label class="flex items-center justify-between p-2.5 rounded-lg border border-brand-border hover:border-brand-blue/30 cursor-pointer transition-colors">
+                    <div class="flex items-center gap-2">
+                      <input type="checkbox" class="form-build-check w-4 h-4 accent-blue-500" data-label="Basic Interior Clean" onchange="updateFormBuilder()">
+                      <span class="text-white text-sm">Basic Interior Clean</span>
+                    </div>
+                    <span class="text-brand-blue text-xs font-semibold">$60–$90</span>
+                  </label>
+                  <label class="flex items-center justify-between p-2.5 rounded-lg border border-brand-border hover:border-brand-blue/30 cursor-pointer transition-colors">
+                    <div class="flex items-center gap-2">
+                      <input type="checkbox" class="form-build-check w-4 h-4 accent-blue-500" data-label="Deep Interior Clean" onchange="updateFormBuilder()">
+                      <span class="text-white text-sm">Deep Interior Clean</span>
+                    </div>
+                    <span class="text-brand-blue text-xs font-semibold">$120–$180</span>
+                  </label>
+                  <label class="flex items-center justify-between p-2.5 rounded-lg border border-brand-border hover:border-brand-blue/30 cursor-pointer transition-colors">
+                    <div class="flex items-center gap-2">
+                      <input type="checkbox" class="form-build-check w-4 h-4 accent-blue-500" data-label="Shampoo &amp; Extraction" onchange="updateFormBuilder()">
+                      <span class="text-white text-sm">Shampoo &amp; Extraction</span>
+                    </div>
+                    <span class="text-brand-blue text-xs font-semibold">$120–$200</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+            <!-- Running total -->
+            <div id="form-builder-summary" class="hidden border-t border-brand-border/50 pt-3 flex items-center justify-between">
+              <p class="text-brand-silver/60 text-xs">Estimated total</p>
+              <p class="text-white font-bold">~$<span id="form-builder-total">0</span></p>
             </div>
           </div>
 
@@ -747,6 +814,33 @@
 </div>
 
 <script>
+  // ── Form builder toggle ──
+  const formBuildPrices = {'Basic Wash':45,'Wash + Protection':105,'Paint Decontamination':185,'Basic Interior Clean':75,'Deep Interior Clean':150,'Shampoo & Extraction':160};
+  function toggleFormBuilder(val) {
+    const panel = document.getElementById('form-builder-panel');
+    if (val === 'build') {
+      panel.classList.remove('hidden');
+    } else {
+      panel.classList.add('hidden');
+      document.querySelectorAll('.form-build-check').forEach(c => c.checked = false);
+      document.getElementById('form-builder-summary').classList.add('hidden');
+    }
+  }
+  function updateFormBuilder() {
+    const checks = document.querySelectorAll('.form-build-check');
+    let total = 0;
+    checks.forEach(c => { if (c.checked) total += formBuildPrices[c.dataset.label] || 0; });
+    const summary = document.getElementById('form-builder-summary');
+    if (total > 0) {
+      document.getElementById('form-builder-total').textContent = total;
+      summary.classList.remove('hidden');
+      summary.classList.add('flex');
+    } else {
+      summary.classList.add('hidden');
+      summary.classList.remove('flex');
+    }
+  }
+
   // ── Build Your Own Total ──
   function updateTotal() {
     const checks = document.querySelectorAll('.build-check');
