@@ -429,6 +429,41 @@
     </div>
   </div>
 
+  <!-- Add-Ons -->
+  <div class="bg-brand-card border border-brand-border rounded-2xl overflow-hidden shadow-card mb-8">
+    <div class="bg-gradient-to-r from-brand-blue/20 to-transparent border-b border-brand-border px-6 py-4 flex items-center gap-3">
+      <svg class="w-5 h-5 text-brand-blue" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+      <span class="text-brand-blue font-bold text-sm uppercase tracking-widest">Add-Ons</span>
+      <span class="text-brand-silver/40 text-xs ml-1">Optional extras</span>
+    </div>
+    <div class="p-5 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+      <label class="build-option flex items-center justify-between p-3 rounded-xl border border-brand-border hover:border-brand-blue/40 cursor-pointer transition-colors">
+        <div class="flex items-center gap-3"><input type="checkbox" class="build-check w-4 h-4 accent-blue-500" data-price="40" onchange="updateTotal()"><span class="text-white text-sm font-medium">Engine Bay Clean</span></div>
+        <span class="text-brand-blue font-bold text-sm">$40+</span>
+      </label>
+      <label class="build-option flex items-center justify-between p-3 rounded-xl border border-brand-border hover:border-brand-blue/40 cursor-pointer transition-colors">
+        <div class="flex items-center gap-3"><input type="checkbox" class="build-check w-4 h-4 accent-blue-500" data-price="30" onchange="updateTotal()"><span class="text-white text-sm font-medium">Wheel Wells Clean</span></div>
+        <span class="text-brand-blue font-bold text-sm">$20–$40</span>
+      </label>
+      <label class="build-option flex items-center justify-between p-3 rounded-xl border border-brand-border hover:border-brand-blue/40 cursor-pointer transition-colors">
+        <div class="flex items-center gap-3"><input type="checkbox" class="build-check w-4 h-4 accent-blue-500" data-price="25" onchange="updateTotal()"><span class="text-white text-sm font-medium">Pet Hair Removal</span></div>
+        <span class="text-brand-blue font-bold text-sm">$25+</span>
+      </label>
+      <label class="build-option flex items-center justify-between p-3 rounded-xl border border-brand-border hover:border-brand-blue/40 cursor-pointer transition-colors">
+        <div class="flex items-center gap-3"><input type="checkbox" class="build-check w-4 h-4 accent-blue-500" data-price="40" onchange="updateTotal()"><span class="text-white text-sm font-medium">Odor Treatment</span></div>
+        <span class="text-brand-blue font-bold text-sm">$40+</span>
+      </label>
+      <label class="build-option flex items-center justify-between p-3 rounded-xl border border-brand-border hover:border-brand-blue/40 cursor-pointer transition-colors">
+        <div class="flex items-center gap-3"><input type="checkbox" class="build-check w-4 h-4 accent-blue-500" data-price="60" onchange="updateTotal()"><span class="text-white text-sm font-medium">Leather Treatment</span></div>
+        <span class="text-brand-blue font-bold text-sm">$40–$80</span>
+      </label>
+      <label class="build-option flex items-center justify-between p-3 rounded-xl border border-brand-border hover:border-brand-blue/40 cursor-pointer transition-colors">
+        <div class="flex items-center gap-3"><input type="checkbox" class="build-check w-4 h-4 accent-blue-500" data-price="40" onchange="updateTotal()"><span class="text-white text-sm font-medium">Headlight Restoration</span></div>
+        <span class="text-brand-blue font-bold text-sm">$40+</span>
+      </label>
+    </div>
+  </div>
+
   <!-- Summary bar -->
   <div id="build-summary" class="hidden bg-brand-card border border-brand-blue/30 rounded-2xl p-5 md:p-6 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-blue-glow">
     <div>
@@ -661,6 +696,36 @@
                 </div>
               </div>
             </div>
+            <!-- Add-Ons in form -->
+            <div>
+              <p class="text-xs font-semibold text-brand-silver/50 uppercase tracking-wider mb-2">Add-Ons</p>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                <label class="flex items-center justify-between p-2.5 rounded-lg border border-brand-border hover:border-brand-blue/30 cursor-pointer transition-colors">
+                  <div class="flex items-center gap-2"><input type="checkbox" class="form-build-check w-4 h-4 accent-blue-500" data-label="Engine Bay Clean" onchange="updateFormBuilder()"><span class="text-white text-sm">Engine Bay Clean</span></div>
+                  <span class="text-brand-blue text-xs font-semibold">$40+</span>
+                </label>
+                <label class="flex items-center justify-between p-2.5 rounded-lg border border-brand-border hover:border-brand-blue/30 cursor-pointer transition-colors">
+                  <div class="flex items-center gap-2"><input type="checkbox" class="form-build-check w-4 h-4 accent-blue-500" data-label="Wheel Wells Clean" onchange="updateFormBuilder()"><span class="text-white text-sm">Wheel Wells Clean</span></div>
+                  <span class="text-brand-blue text-xs font-semibold">$20–$40</span>
+                </label>
+                <label class="flex items-center justify-between p-2.5 rounded-lg border border-brand-border hover:border-brand-blue/30 cursor-pointer transition-colors">
+                  <div class="flex items-center gap-2"><input type="checkbox" class="form-build-check w-4 h-4 accent-blue-500" data-label="Pet Hair Removal" onchange="updateFormBuilder()"><span class="text-white text-sm">Pet Hair Removal</span></div>
+                  <span class="text-brand-blue text-xs font-semibold">$25+</span>
+                </label>
+                <label class="flex items-center justify-between p-2.5 rounded-lg border border-brand-border hover:border-brand-blue/30 cursor-pointer transition-colors">
+                  <div class="flex items-center gap-2"><input type="checkbox" class="form-build-check w-4 h-4 accent-blue-500" data-label="Odor Treatment" onchange="updateFormBuilder()"><span class="text-white text-sm">Odor Treatment</span></div>
+                  <span class="text-brand-blue text-xs font-semibold">$40+</span>
+                </label>
+                <label class="flex items-center justify-between p-2.5 rounded-lg border border-brand-border hover:border-brand-blue/30 cursor-pointer transition-colors">
+                  <div class="flex items-center gap-2"><input type="checkbox" class="form-build-check w-4 h-4 accent-blue-500" data-label="Leather Treatment" onchange="updateFormBuilder()"><span class="text-white text-sm">Leather Treatment</span></div>
+                  <span class="text-brand-blue text-xs font-semibold">$40–$80</span>
+                </label>
+                <label class="flex items-center justify-between p-2.5 rounded-lg border border-brand-border hover:border-brand-blue/30 cursor-pointer transition-colors">
+                  <div class="flex items-center gap-2"><input type="checkbox" class="form-build-check w-4 h-4 accent-blue-500" data-label="Headlight Restoration" onchange="updateFormBuilder()"><span class="text-white text-sm">Headlight Restoration</span></div>
+                  <span class="text-brand-blue text-xs font-semibold">$40+</span>
+                </label>
+              </div>
+            </div>
             <!-- Running total -->
             <div id="form-builder-summary" class="hidden border-t border-brand-border/50 pt-3 flex items-center justify-between">
               <p class="text-brand-silver/60 text-xs">Estimated total</p>
@@ -815,7 +880,7 @@
 
 <script>
   // ── Form builder toggle ──
-  const formBuildPrices = {'Basic Wash':45,'Wash + Protection':105,'Paint Decontamination':185,'Basic Interior Clean':75,'Deep Interior Clean':150,'Shampoo & Extraction':160};
+  const formBuildPrices = {'Basic Wash':45,'Wash + Protection':105,'Paint Decontamination':185,'Basic Interior Clean':75,'Deep Interior Clean':150,'Shampoo & Extraction':160,'Engine Bay Clean':40,'Wheel Wells Clean':30,'Pet Hair Removal':25,'Odor Treatment':40,'Leather Treatment':60,'Headlight Restoration':40};
   function toggleFormBuilder(val) {
     const panel = document.getElementById('form-builder-panel');
     if (val === 'build') {
