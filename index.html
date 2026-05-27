@@ -612,11 +612,11 @@
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label class="block text-xs font-semibold text-brand-silver/70 uppercase tracking-wider mb-1.5">Your Name</label>
-              <input type="text" required placeholder="First &amp; Last Name" class="w-full bg-brand-black border border-brand-border rounded-lg px-4 py-3 text-white text-sm placeholder-brand-silver/30 focus:outline-none focus:border-brand-blue/60 transition-colors" />
+              <input id="f-name" type="text" required placeholder="First &amp; Last Name" class="w-full bg-brand-black border border-brand-border rounded-lg px-4 py-3 text-white text-sm placeholder-brand-silver/30 focus:outline-none focus:border-brand-blue/60 transition-colors" />
             </div>
             <div>
               <label class="block text-xs font-semibold text-brand-silver/70 uppercase tracking-wider mb-1.5">Phone Number</label>
-              <input type="tel" required placeholder="(314) 000-0000" class="w-full bg-brand-black border border-brand-border rounded-lg px-4 py-3 text-white text-sm placeholder-brand-silver/30 focus:outline-none focus:border-brand-blue/60 transition-colors" />
+              <input id="f-phone" type="tel" required placeholder="(314) 000-0000" class="w-full bg-brand-black border border-brand-border rounded-lg px-4 py-3 text-white text-sm placeholder-brand-silver/30 focus:outline-none focus:border-brand-blue/60 transition-colors" />
             </div>
           </div>
 
@@ -639,7 +639,7 @@
             </div>
             <div>
               <label class="block text-xs font-semibold text-brand-silver/70 uppercase tracking-wider mb-1.5">Vehicle</label>
-              <input type="text" placeholder="Year, Make &amp; Model" class="w-full bg-brand-black border border-brand-border rounded-lg px-4 py-3 text-white text-sm placeholder-brand-silver/30 focus:outline-none focus:border-brand-blue/60 transition-colors" />
+              <input id="f-vehicle" type="text" placeholder="Year, Make &amp; Model" class="w-full bg-brand-black border border-brand-border rounded-lg px-4 py-3 text-white text-sm placeholder-brand-silver/30 focus:outline-none focus:border-brand-blue/60 transition-colors" />
             </div>
           </div>
 
@@ -742,11 +742,11 @@
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label class="block text-xs font-semibold text-brand-silver/70 uppercase tracking-wider mb-1.5">Preferred Date</label>
-              <input type="date" required class="w-full bg-brand-black border border-brand-border rounded-lg px-4 py-3 text-white text-sm focus:outline-none focus:border-brand-blue/60 transition-colors [color-scheme:dark]" />
+              <input id="f-date" type="date" required class="w-full bg-brand-black border border-brand-border rounded-lg px-4 py-3 text-white text-sm focus:outline-none focus:border-brand-blue/60 transition-colors [color-scheme:dark]" />
             </div>
             <div>
               <label class="block text-xs font-semibold text-brand-silver/70 uppercase tracking-wider mb-1.5">Preferred Time</label>
-              <select class="w-full bg-brand-black border border-brand-border rounded-lg px-4 py-3 text-white text-sm focus:outline-none focus:border-brand-blue/60 transition-colors appearance-none">
+              <select id="f-time" class="w-full bg-brand-black border border-brand-border rounded-lg px-4 py-3 text-white text-sm focus:outline-none focus:border-brand-blue/60 transition-colors appearance-none">
                 <option value="" disabled selected>Select a time…</option>
                 <option>8:00 AM</option>
                 <option>9:00 AM</option>
@@ -765,7 +765,7 @@
 
           <div>
             <label class="block text-xs font-semibold text-brand-silver/70 uppercase tracking-wider mb-1.5">Location / Notes</label>
-            <textarea rows="3" placeholder="Your address or location, add-ons, vehicle condition, or anything we should know…" class="w-full bg-brand-black border border-brand-border rounded-lg px-4 py-3 text-white text-sm placeholder-brand-silver/30 focus:outline-none focus:border-brand-blue/60 transition-colors resize-none"></textarea>
+            <textarea id="f-notes" rows="3" placeholder="Your address or location, add-ons, vehicle condition, or anything we should know…" class="w-full bg-brand-black border border-brand-border rounded-lg px-4 py-3 text-white text-sm placeholder-brand-silver/30 focus:outline-none focus:border-brand-blue/60 transition-colors resize-none"></textarea>
           </div>
 
           <div class="flex items-start gap-3 bg-brand-blue/10 border border-brand-blue/20 rounded-xl px-4 py-3">
@@ -1008,18 +1008,59 @@ Please let me know your availability. Thank you!`;
     const form = document.getElementById('booking-form');
     const success = document.getElementById('booking-success');
 
-    // Build booking summary from form fields
-    const inputs = form.querySelectorAll('input, select, textarea');
-    const labels = ['Name', 'Phone', 'Package', 'Vehicle', 'Date', 'Time', 'Notes'];
-    let msg = 'Hi! Here is my booking request:\n\n';
-    inputs.forEach((el, i) => {
-      if (el.value && el.value !== 'build') msg += labels[i] + ': ' + el.value + '\n';
-    });
-    // Include any Build Your Own selections
-    const buildChecks = form.querySelectorAll('.form-build-check:checked');
-    if (buildChecks.length > 0) {
-      msg += 'Selected Services: ' + Array.from(buildChecks).map(c => c.dataset.label).join(', ') + '\n';
+    // Grab each field by ID
+    const name    = document.getElementById('f-name').value.trim();
+    const phone   = document.getElementById('f-phone').value.trim();
+    const pkg     = document.getElementById('form-package-select').value;
+    const vehicle = document.getElementById('f-vehicle').value.trim();
+    const date    = document.getElementById('f-date').value;
+    const time    = document.getElementById('f-time').value;
+    const notes   = document.getElementById('f-notes').value.trim();
+
+    // Format date nicely if provided
+    let dateStr = date;
+    if (date) {
+      const d = new Date(date + 'T00:00:00');
+      dateStr = d.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
     }
+
+    // Build Your Own selections
+    const buildChecks = form.querySelectorAll('.form-build-check:checked');
+    const isBuild = pkg === 'build' || buildChecks.length > 0;
+    const formTotal = document.getElementById('form-builder-total');
+
+    // Compose professional message
+    let msg = `Hi! I'd like to book a detail with Pure Finish STL.\n\n`;
+    msg += `🚗 BOOKING REQUEST\n`;
+    msg += `──────────────────────────\n`;
+    if (name)    msg += `👤 Name:     ${name}\n`;
+    if (phone)   msg += `📞 Phone:    ${phone}\n`;
+    if (vehicle) msg += `🚘 Vehicle:  ${vehicle}\n`;
+
+    if (isBuild && buildChecks.length > 0) {
+      const exteriorList = ['Basic Wash', 'Wash + Protection', 'Paint Decontamination'];
+      const interiorList = ['Basic Interior Clean', 'Deep Interior Clean', 'Shampoo & Extraction'];
+      const exterior = [], interior = [], addons = [];
+      buildChecks.forEach(c => {
+        const label = c.dataset.label;
+        if (exteriorList.includes(label)) exterior.push(label);
+        else if (interiorList.includes(label)) interior.push(label);
+        else addons.push(label);
+      });
+      msg += `📦 Package:  Build Your Own Detail\n`;
+      if (exterior.length) msg += `   ✅ Exterior:  ${exterior.join(', ')}\n`;
+      if (interior.length) msg += `   ✅ Interior:  ${interior.join(', ')}\n`;
+      if (addons.length)   msg += `   ✅ Add-Ons:   ${addons.join(', ')}\n`;
+      if (formTotal && formTotal.textContent !== '0') msg += `   💰 Est. Total: ~$${formTotal.textContent}\n`;
+    } else if (pkg && pkg !== 'build') {
+      msg += `📦 Package:  ${pkg}\n`;
+    }
+
+    if (dateStr) msg += `📅 Date:     ${dateStr}\n`;
+    if (time)    msg += `⏰ Time:     ${time}\n`;
+    if (notes)   msg += `📍 Notes:    ${notes}\n`;
+
+    msg += `\nPlease let me know your availability. Thank you!`;
 
     // Copy to clipboard then open Instagram DM
     navigator.clipboard.writeText(msg).catch(() => {}).finally(() => {
