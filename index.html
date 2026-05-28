@@ -39,7 +39,15 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
   <style>
     html { scroll-behavior: smooth; }
-    body { background-color: #000000; color: #f0f0f0; font-family: 'Inter', sans-serif; }
+    body {
+      background-color: #000000;
+      color: #f0f0f0;
+      font-family: 'Inter', sans-serif;
+      background-image:
+        linear-gradient(rgba(201,160,64,0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(201,160,64,0.025) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
 
     /* Gradient text utility */
     .text-gradient-blue { background: linear-gradient(135deg, #C9A040, #F0D080); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
@@ -48,30 +56,74 @@
     /* Hero background */
     .hero-bg {
       background:
-        radial-gradient(ellipse 80% 60% at 50% 0%, rgba(201,160,64,0.10) 0%, transparent 65%),
-        radial-gradient(ellipse 50% 40% at 90% 60%, rgba(201,160,64,0.05) 0%, transparent 60%),
+        radial-gradient(ellipse 90% 70% at 50% -10%, rgba(201,160,64,0.18) 0%, transparent 60%),
+        radial-gradient(ellipse 40% 40% at 90% 70%, rgba(201,160,64,0.07) 0%, transparent 60%),
+        radial-gradient(ellipse 40% 40% at 10% 80%, rgba(201,160,64,0.05) 0%, transparent 60%),
         #000000;
     }
 
-    /* Animated top stripe */
+    /* Animated top stripe — thicker, glowing */
     .top-stripe {
-      background: linear-gradient(90deg, #8B6914 0%, #F0D080 40%, #C9A040 60%, #8B6914 100%);
+      height: 3px;
+      background: linear-gradient(90deg, #3A2800 0%, #C9A040 25%, #F0D080 50%, #C9A040 75%, #3A2800 100%);
       background-size: 200% 100%;
-      animation: stripe-slide 4s linear infinite;
+      animation: stripe-slide 3s linear infinite;
+      box-shadow: 0 0 12px rgba(201,160,64,0.6), 0 0 24px rgba(201,160,64,0.3);
     }
     @keyframes stripe-slide { 0%{background-position:0% 0%} 100%{background-position:200% 0%} }
 
-    /* Card hover */
-    .pricing-card { transition: transform 0.25s ease, box-shadow 0.25s ease; }
-    .pricing-card:hover { transform: translateY(-6px); }
-    .pricing-card.cyan:hover  { box-shadow: 0 8px 40px rgba(201,160,64,0.35); }
-    .pricing-card.pink:hover  { box-shadow: 0 8px 40px rgba(201,160,64,0.30); }
+    /* Sticky navbar */
+    .navbar-sticky {
+      position: sticky; top: 0; z-index: 50;
+      backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+      background: rgba(0,0,0,0.85);
+      border-bottom: 1px solid rgba(201,160,64,0.20);
+      box-shadow: 0 4px 30px rgba(0,0,0,0.5);
+    }
+
+    /* Card hover + shimmer */
+    .pricing-card {
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      position: relative; overflow: hidden;
+    }
+    .pricing-card::after {
+      content: '';
+      position: absolute; top: 0; left: -100%; width: 60%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(201,160,64,0.08), transparent);
+      transition: left 0.5s ease;
+    }
+    .pricing-card:hover::after { left: 140%; }
+    .pricing-card:hover { transform: translateY(-8px); }
+    .pricing-card.cyan:hover  { box-shadow: 0 12px 50px rgba(201,160,64,0.30), 0 0 0 1px rgba(201,160,64,0.20); }
+    .pricing-card.pink:hover  { box-shadow: 0 12px 50px rgba(201,160,64,0.25), 0 0 0 1px rgba(201,160,64,0.15); }
+
+    /* Gold top accent bar on cards */
+    .card-gold-top { border-top: 2px solid; border-image: linear-gradient(90deg, transparent, #C9A040, #F0D080, #C9A040, transparent) 1; }
+
+    /* Section title decoration */
+    .section-title-line {
+      display: inline-block; position: relative;
+    }
+    .section-title-line::after {
+      content: ''; position: absolute; bottom: -10px; left: 50%; transform: translateX(-50%);
+      width: 60px; height: 2px;
+      background: linear-gradient(90deg, transparent, #C9A040, transparent);
+      box-shadow: 0 0 8px rgba(201,160,64,0.5);
+    }
 
     /* Pulse CTA */
     .cta-pulse { animation: pulse-cta 2.4s ease-in-out infinite; }
     @keyframes pulse-cta {
       0%,100% { box-shadow: 0 0 0 0 rgba(201,160,64,0.6), 0 4px 24px rgba(201,160,64,0.40); }
-      50%      { box-shadow: 0 0 0 12px rgba(201,160,64,0), 0 4px 32px rgba(201,160,64,0.60); }
+      50%      { box-shadow: 0 0 0 14px rgba(201,160,64,0), 0 4px 40px rgba(201,160,64,0.65); }
+    }
+
+    /* Floating glow orb animation */
+    .orb { animation: orb-float 8s ease-in-out infinite; }
+    .orb-2 { animation: orb-float 11s ease-in-out infinite reverse; }
+    @keyframes orb-float {
+      0%,100% { transform: translateY(0px) scale(1); opacity: 0.6; }
+      50%      { transform: translateY(-30px) scale(1.05); opacity: 1; }
     }
 
     /* Mobile sticky CTA bar */
@@ -82,7 +134,15 @@
     .modal-box { transition: transform 0.25s ease, opacity 0.25s ease; }
 
     /* Divider line */
-    .divider { height: 1px; background: linear-gradient(90deg, transparent, #1e1e1e 20%, #1e1e1e 80%, transparent); }
+    .divider { height: 1px; background: linear-gradient(90deg, transparent, rgba(201,160,64,0.4) 20%, rgba(201,160,64,0.4) 80%, transparent); }
+
+    /* Gold rule separator */
+    .gold-rule {
+      border: none; height: 1px;
+      background: linear-gradient(90deg, transparent, #C9A040 30%, #F0D080 50%, #C9A040 70%, transparent);
+      box-shadow: 0 0 10px rgba(201,160,64,0.3);
+      margin: 0;
+    }
 
     /* Checkmark list */
     .check-list li::before      { content: "✓"; color: #C9A040; font-weight: 700; margin-right: 8px; }
@@ -93,18 +153,22 @@
       background: linear-gradient(135deg, #C9A040, #8B6914);
       font-size: 0.65rem; font-weight: 800; letter-spacing: 0.1em;
       padding: 3px 10px; border-radius: 100px; text-transform: uppercase;
+      box-shadow: 0 0 12px rgba(201,160,64,0.4);
     }
     .badge-best {
       background: linear-gradient(135deg, #8B6914, #5A3E08);
       font-size: 0.65rem; font-weight: 800; letter-spacing: 0.1em;
       padding: 3px 10px; border-radius: 100px; text-transform: uppercase;
     }
+
+    /* Stat item */
+    .stat-divider { width: 1px; background: rgba(201,160,64,0.25); height: 2rem; }
   </style>
 </head>
 <body class="antialiased">
 
 <!-- ═══════════ ANIMATED TOP STRIPE ═══════════ -->
-<div class="top-stripe h-1 w-full"></div>
+<div class="top-stripe w-full"></div>
 
 <!-- ═══════════ STICKY MOBILE CTA ═══════════ -->
 <div class="sticky-cta md:hidden shadow-blue-glow">
@@ -115,7 +179,7 @@
 </div>
 
 <!-- ═══════════ NAVBAR ═══════════ -->
-<nav class="relative z-40 flex items-center justify-between px-5 py-4 md:px-10">
+<nav class="navbar-sticky flex items-center justify-between px-5 py-4 md:px-10">
   <a href="https://purefinishstl.github.io/purefinishstl/" id="nav-logo" onclick="animateLogo();return false;" class="flex items-center gap-2.5 transition-transform duration-150">
     <img src="logo.jpg" alt="Pure Finish STL Logo" class="h-14 w-14 object-contain" />
     <div class="flex flex-col leading-none">
@@ -138,52 +202,83 @@
 </nav>
 
 <!-- ═══════════ HERO ═══════════ -->
-<section class="hero-bg relative overflow-hidden px-5 pt-10 pb-20 md:pt-20 md:pb-32 text-center">
-  <!-- Decorative lines -->
+<section class="hero-bg relative overflow-hidden px-5 pt-12 pb-24 md:pt-24 md:pb-36 text-center">
+  <!-- Floating glow orbs -->
   <div class="absolute inset-0 overflow-hidden pointer-events-none">
-    <div class="absolute -top-20 -left-20 w-96 h-96 rounded-full border border-brand-blue/10"></div>
-    <div class="absolute -bottom-10 -right-10 w-80 h-80 rounded-full border border-brand-pink/10"></div>
+    <div class="orb absolute top-1/4 left-1/4 w-64 h-64 rounded-full" style="background:radial-gradient(circle, rgba(201,160,64,0.12) 0%, transparent 70%);"></div>
+    <div class="orb-2 absolute top-1/3 right-1/4 w-96 h-96 rounded-full" style="background:radial-gradient(circle, rgba(201,160,64,0.07) 0%, transparent 70%);"></div>
+    <!-- Corner brackets -->
+    <div class="absolute top-8 left-8 w-12 h-12 border-t-2 border-l-2 border-brand-blue/30 rounded-tl-lg"></div>
+    <div class="absolute top-8 right-8 w-12 h-12 border-t-2 border-r-2 border-brand-blue/30 rounded-tr-lg"></div>
+    <div class="absolute bottom-8 left-8 w-12 h-12 border-b-2 border-l-2 border-brand-blue/20 rounded-bl-lg"></div>
+    <div class="absolute bottom-8 right-8 w-12 h-12 border-b-2 border-r-2 border-brand-blue/20 rounded-br-lg"></div>
   </div>
 
   <div class="relative max-w-4xl mx-auto">
-    <div class="inline-flex items-center gap-2 bg-brand-card border border-brand-border rounded-full px-4 py-1.5 mb-6 text-xs font-semibold text-brand-silver tracking-widest uppercase">
+    <div class="inline-flex items-center gap-2 bg-brand-card border border-brand-blue/30 rounded-full px-5 py-2 mb-8 text-xs font-bold text-brand-blue tracking-widest uppercase shadow-blue-glow">
       <span class="w-2 h-2 rounded-full bg-brand-blue animate-pulse"></span>
-      St. Louis Auto Detailing · 100% Satisfaction Guaranteed
+      St. Louis Mobile Auto Detailing
     </div>
 
-    <h1 class="text-5xl md:text-7xl font-black leading-none tracking-tight mb-4">
+    <h1 class="text-6xl md:text-8xl font-black leading-none tracking-tighter mb-4">
       <span class="text-white">PURE</span><br>
-      <span class="text-gradient-blue">FINISH</span>
+      <span class="text-gradient-blue" style="text-shadow: 0 0 40px rgba(201,160,64,0.3);">FINISH</span>
       <span class="text-white"> STL</span>
     </h1>
 
-    <p class="text-brand-blue/90 text-sm font-black tracking-[0.25em] uppercase mb-2">Precision · Protection · Perfection</p>
-    <p class="text-brand-silver text-base md:text-lg font-medium max-w-xl mx-auto mb-10">
-      Premium mobile auto detailing in the St. Louis area. We come to you — every detail, every time.
+    <hr class="gold-rule max-w-xs mx-auto my-6" />
+
+    <p class="text-brand-blue text-sm font-black tracking-[0.3em] uppercase mb-3">Precision · Protection · Perfection</p>
+    <p class="text-brand-silver/80 text-base md:text-lg font-medium max-w-xl mx-auto mb-10">
+      Premium mobile auto detailing in the St. Louis area.<br class="hidden md:block"> We come to you — every detail, every time.
     </p>
 
-    <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-6">
+    <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-10">
       <button onclick="openMobileModal()"
-        class="w-full sm:w-auto inline-flex items-center justify-center gap-3 bg-brand-blue hover:bg-brand-blue-glow text-white font-extrabold text-base md:text-lg px-8 py-4 rounded-xl transition-colors cta-pulse">
+        class="w-full sm:w-auto inline-flex items-center justify-center gap-3 bg-brand-blue hover:bg-brand-blue-glow text-black font-extrabold text-base md:text-lg px-8 py-4 rounded-xl transition-colors cta-pulse">
         <svg class="w-5 h-5 flex-shrink-0" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
-        DM @PureFinishSTL On Instagram To SAVE 10% ON FIRST DETAIL
+        DM Us · Save 10% On First Detail
       </button>
       <a href="#booking"
-        class="w-full sm:w-auto inline-flex items-center justify-center gap-2 border border-brand-border hover:border-brand-blue/50 text-white font-bold text-base px-8 py-4 rounded-xl transition-colors">
+        class="w-full sm:w-auto inline-flex items-center justify-center gap-2 border border-brand-blue/40 hover:border-brand-blue text-brand-blue hover:text-white font-bold text-base px-8 py-4 rounded-xl transition-colors">
         <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
         Schedule Online
       </a>
     </div>
 
-    <p class="text-xs text-brand-silver/60">Mobile detailing available · Additional $25–$40 travel fee by location</p>
+    <!-- Trust bar -->
+    <div class="inline-flex flex-wrap items-center justify-center gap-x-6 gap-y-3 bg-brand-card/80 border border-brand-blue/15 rounded-2xl px-6 py-4 backdrop-blur-sm">
+      <div class="flex items-center gap-2">
+        <span class="text-brand-blue text-lg">★★★★★</span>
+        <span class="text-white text-xs font-bold">5-Star Rated</span>
+      </div>
+      <div class="stat-divider hidden sm:block"></div>
+      <div class="flex items-center gap-2">
+        <svg class="w-4 h-4 text-brand-blue" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        <span class="text-white text-xs font-bold">100% Satisfaction Guaranteed</span>
+      </div>
+      <div class="stat-divider hidden sm:block"></div>
+      <div class="flex items-center gap-2">
+        <svg class="w-4 h-4 text-brand-blue" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+        <span class="text-white text-xs font-bold">St. Louis, MO</span>
+      </div>
+      <div class="stat-divider hidden sm:block"></div>
+      <div class="flex items-center gap-2">
+        <svg class="w-4 h-4 text-brand-blue" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M1 3h15v13H1z"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+        <span class="text-white text-xs font-bold">We Come To You</span>
+      </div>
+    </div>
   </div>
 </section>
+
+<!-- Gold separator -->
+<hr class="gold-rule" />
 
 <!-- ═══════════ SERVICES / PRICING ═══════════ -->
 <section id="services" class="px-5 py-16 md:py-24 max-w-6xl mx-auto">
   <div class="text-center mb-12">
     <p class="text-brand-blue text-xs font-bold tracking-widest uppercase mb-2">Detailing Packages</p>
-    <h2 class="text-3xl md:text-5xl font-black text-white">Choose Your Detail</h2>
+    <h2 class="text-3xl md:text-5xl font-black text-white section-title-line">Choose Your Detail</h2>
     <p class="text-brand-silver mt-3 max-w-lg mx-auto text-sm md:text-base">All packages available for Sedan, SUV, and Truck. DM to lock in 10% off your first detail.</p>
   </div>
 
@@ -191,7 +286,7 @@
 
     <!-- ── REFRESH ── -->
     <div class="pricing-card cyan bg-brand-card border border-brand-border rounded-2xl overflow-hidden shadow-card flex flex-col">
-      <div class="bg-gradient-to-r from-brand-blue/20 to-transparent border-b border-brand-border px-5 pt-5 pb-4">
+      <div class="card-gold-top bg-gradient-to-r from-brand-blue/20 to-transparent border-b border-brand-border px-5 pt-5 pb-4">
         <span class="text-xs font-bold tracking-widest text-brand-blue uppercase">Refresh</span>
         <h3 class="text-xl font-black text-white mt-1 mb-0.5">Essential Care</h3>
         <p class="text-brand-silver/60 text-xs">1–1.5 Hours</p>
@@ -224,7 +319,7 @@
     <!-- ── ENHANCE ── -->
     <div class="pricing-card cyan bg-brand-card border border-brand-blue/50 rounded-2xl overflow-hidden shadow-card flex flex-col relative">
       <div class="absolute top-3 right-3"><span class="badge-popular text-white">Most Popular</span></div>
-      <div class="bg-gradient-to-r from-brand-blue/30 to-transparent border-b border-brand-blue/30 px-5 pt-5 pb-4">
+      <div class="card-gold-top bg-gradient-to-r from-brand-blue/30 to-transparent border-b border-brand-blue/30 px-5 pt-5 pb-4">
         <span class="text-xs font-bold tracking-widest text-brand-blue uppercase">Enhance</span>
         <h3 class="text-xl font-black text-white mt-1 mb-0.5">Premium Detail</h3>
         <p class="text-brand-silver/60 text-xs">1.5–3 Hours</p>
@@ -258,7 +353,7 @@
 
     <!-- ── REFINE ── -->
     <div class="pricing-card pink bg-brand-card border border-brand-pink/30 rounded-2xl overflow-hidden shadow-card flex flex-col">
-      <div class="bg-gradient-to-r from-brand-pink/20 to-transparent border-b border-brand-pink/20 px-5 pt-5 pb-4">
+      <div class="card-gold-top bg-gradient-to-r from-brand-pink/20 to-transparent border-b border-brand-pink/20 px-5 pt-5 pb-4">
         <span class="text-xs font-bold tracking-widest text-brand-pink uppercase">Refine</span>
         <h3 class="text-xl font-black text-white mt-1 mb-0.5">Correction Detail</h3>
         <p class="text-brand-silver/60 text-xs">3–5 Hours</p>
@@ -293,7 +388,7 @@
     <!-- ── ULTIMATE ── -->
     <div class="pricing-card pink bg-brand-card border border-brand-pink/50 rounded-2xl overflow-hidden shadow-card flex flex-col relative">
       <div class="absolute top-3 right-3"><span class="badge-best text-white">Best Results</span></div>
-      <div class="bg-gradient-to-r from-brand-pink/30 to-transparent border-b border-brand-pink/30 px-5 pt-5 pb-4">
+      <div class="card-gold-top bg-gradient-to-r from-brand-pink/30 to-transparent border-b border-brand-pink/30 px-5 pt-5 pb-4">
         <span class="text-xs font-bold tracking-widest text-brand-pink uppercase">Ultimate</span>
         <h3 class="text-xl font-black text-white mt-1 mb-0.5">Pure Finish Experience</h3>
         <p class="text-brand-silver/60 text-xs">4.5+ Hours</p>
@@ -342,11 +437,14 @@
   </div>
 </div>
 
+<!-- Gold separator -->
+<hr class="gold-rule" />
+
 <!-- ═══════════ BUILD YOUR OWN DETAIL ═══════════ -->
 <section id="build" class="px-5 py-16 md:py-24 max-w-6xl mx-auto">
   <div class="text-center mb-12">
     <p class="text-brand-blue text-xs font-bold tracking-widest uppercase mb-2">Custom Package</p>
-    <h2 class="text-3xl md:text-5xl font-black text-white">Build Your Own Detail</h2>
+    <h2 class="text-3xl md:text-5xl font-black text-white section-title-line">Build Your Own Detail</h2>
     <p class="text-brand-silver mt-3 max-w-lg mx-auto text-sm md:text-base">Pick exactly what you need. Mix and match exterior and interior services.</p>
   </div>
 
@@ -482,7 +580,7 @@
   <div class="max-w-5xl mx-auto">
     <div class="text-center mb-10">
       <p class="text-brand-blue text-xs font-bold tracking-widest uppercase mb-2">Enhance Your Service</p>
-      <h2 class="text-3xl md:text-4xl font-black text-white">Add-On Services</h2>
+      <h2 class="text-3xl md:text-4xl font-black text-white section-title-line">Add-On Services</h2>
       <p class="text-brand-silver/60 text-sm mt-2">Can be added to any package · Mention when booking</p>
     </div>
 
@@ -527,6 +625,9 @@
     <p class="text-center text-brand-silver/50 text-xs mt-6">Add-ons can be combined with any package · Prices vary by vehicle size &amp; condition</p>
   </div>
 </section>
+
+<!-- Gold separator -->
+<hr class="gold-rule" />
 
 <!-- ═══════════ MOBILE DETAILING BANNER ═══════════ -->
 <section id="mobile" class="px-5 py-12 md:py-16 max-w-6xl mx-auto">
@@ -733,7 +834,7 @@
   <div class="max-w-4xl mx-auto">
     <div class="text-center mb-10">
       <p class="text-brand-blue text-xs font-bold tracking-widest uppercase mb-2">Schedule Online</p>
-      <h2 class="text-3xl md:text-4xl font-black text-white mb-3">Book Your Appointment</h2>
+      <h2 class="text-3xl md:text-4xl font-black text-white mb-3 section-title-line">Book Your Appointment</h2>
       <p class="text-brand-silver text-sm md:text-base max-w-lg mx-auto">
         Pick a time that works for you. Or skip the form — just DM <a href="https://instagram.com/purefinishstl" target="_blank" rel="noopener" class="text-white font-bold hover:underline">@PureFinishSTL On Instagram</a> &amp; get <span class="text-brand-blue font-bold">10% off</span>.
       </p>
@@ -970,28 +1071,58 @@
 </section>
 
 <!-- ═══════════ FOOTER ═══════════ -->
-<footer class="bg-brand-black border-t border-brand-border px-5 py-10 text-center">
-  <div class="max-w-4xl mx-auto">
-    <p class="text-2xl font-black text-white mb-1">
-      PURE <span class="text-gradient-blue">FINISH</span> STL
-    </p>
-    <p class="text-brand-silver/50 text-xs tracking-widest uppercase mb-6">Auto Detailing · St. Louis, MO</p>
+<footer class="relative bg-brand-black overflow-hidden">
+  <!-- Gold top rule -->
+  <div class="top-stripe w-full"></div>
+  <!-- Faint background glow -->
+  <div class="absolute inset-0 pointer-events-none" style="background: radial-gradient(ellipse 80% 50% at 50% 100%, rgba(201,160,64,0.06) 0%, transparent 70%);"></div>
 
+  <div class="relative max-w-4xl mx-auto px-5 pt-12 pb-8 text-center">
+
+    <!-- Brand mark -->
+    <div class="mb-2">
+      <p class="text-3xl font-black tracking-tight text-white" style="text-shadow: 0 0 30px rgba(201,160,64,0.25);">
+        PURE <span class="text-gradient-blue">FINISH</span> STL
+      </p>
+      <p class="text-brand-silver/40 text-xs tracking-[0.25em] uppercase mt-1">Premium Auto Detailing · St. Louis, MO</p>
+    </div>
+
+    <!-- Gold underline accent -->
+    <div class="flex items-center justify-center gap-3 my-6">
+      <div class="h-px flex-1 max-w-[80px]" style="background: linear-gradient(90deg, transparent, rgba(201,160,64,0.4));"></div>
+      <span class="text-brand-blue text-xs">✦</span>
+      <div class="h-px flex-1 max-w-[80px]" style="background: linear-gradient(90deg, rgba(201,160,64,0.4), transparent);"></div>
+    </div>
+
+    <!-- CTA buttons -->
     <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-8">
       <button onclick="openMobileModal()"
-        class="inline-flex items-center gap-2 bg-brand-blue text-white font-extrabold px-6 py-3 rounded-xl text-sm shadow-blue-glow hover:bg-brand-blue-glow transition-colors">
+        class="inline-flex items-center gap-2 bg-brand-blue text-black font-extrabold px-6 py-3 rounded-xl text-sm shadow-blue-glow hover:bg-brand-blue-glow hover:text-white transition-colors cta-pulse">
         <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
-        DM @PureFinishSTL On Instagram · SAVE 10% ON FIRST DETAIL
+        DM @PureFinishSTL · SAVE 10% ON FIRST DETAIL
       </button>
       <a href="https://instagram.com/purefinishstl" target="_blank" rel="noopener"
-        class="inline-flex items-center gap-2 border border-brand-border hover:border-brand-blue/40 text-brand-silver hover:text-white px-6 py-3 rounded-xl text-sm transition-colors">
+        class="inline-flex items-center gap-2 border border-brand-blue/30 hover:border-brand-blue/60 text-brand-silver hover:text-white px-6 py-3 rounded-xl text-sm transition-colors">
         <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
         @purefinishstl
       </a>
     </div>
 
+    <!-- Nav links -->
+    <div class="flex flex-wrap items-center justify-center gap-5 mb-8 text-xs font-semibold text-brand-silver/50">
+      <a href="#services" class="hover:text-brand-blue transition-colors">Packages</a>
+      <span class="text-brand-blue/30">·</span>
+      <a href="#build" class="hover:text-brand-blue transition-colors">Build Your Own</a>
+      <span class="text-brand-blue/30">·</span>
+      <a href="#addons" class="hover:text-brand-blue transition-colors">Add-Ons</a>
+      <span class="text-brand-blue/30">·</span>
+      <a href="#mobile" class="hover:text-brand-blue transition-colors">Mobile</a>
+      <span class="text-brand-blue/30">·</span>
+      <a href="#booking" class="hover:text-brand-blue transition-colors">Book Now</a>
+    </div>
+
     <div class="divider mb-6"></div>
-    <p class="text-brand-silver/30 text-xs">© 2025 Pure Finish STL · All rights reserved · 100% Satisfaction Guaranteed</p>
+    <p class="text-brand-silver/25 text-xs">© 2025 Pure Finish STL · All rights reserved · 100% Satisfaction Guaranteed</p>
   </div>
 </footer>
 
