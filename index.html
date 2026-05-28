@@ -12,23 +12,23 @@
           colors: {
             brand: {
               black: '#000000',
-              darkgray: '#080808',
-              card: '#0D0D0D',
-              border: '#1C1C1C',
-              blue: '#00CFFF',
-              'blue-glow': '#0099CC',
-              pink: '#FF0080',
-              'pink-glow': '#CC0066',
-              silver: '#c8cdd6',
+              darkgray: '#060503',
+              card: '#0C0A06',
+              border: '#2A2010',
+              blue: '#C9A040',
+              'blue-glow': '#8B6914',
+              pink: '#A07828',
+              'pink-glow': '#6B4A10',
+              silver: '#C8CDD6',
             }
           },
           fontFamily: {
             sans: ['Inter', 'system-ui', 'sans-serif'],
           },
           boxShadow: {
-            'blue-glow': '0 0 24px rgba(0,207,255,0.45)',
-            'pink-glow': '0 0 24px rgba(255,0,128,0.45)',
-            'card': '0 4px 32px rgba(0,0,0,0.8)',
+            'blue-glow': '0 0 24px rgba(201,160,64,0.50)',
+            'pink-glow': '0 0 24px rgba(201,160,64,0.35)',
+            'card': '0 4px 32px rgba(0,0,0,0.9)',
           }
         }
       }
@@ -39,23 +39,23 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
   <style>
     html { scroll-behavior: smooth; }
-    body { background-color: #080808; color: #f0f0f0; font-family: 'Inter', sans-serif; }
+    body { background-color: #000000; color: #f0f0f0; font-family: 'Inter', sans-serif; }
 
     /* Gradient text utility */
-    .text-gradient-blue { background: linear-gradient(135deg, #00CFFF, #66e8ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-    .text-gradient-pink { background: linear-gradient(135deg, #FF0080, #ff66b3); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .text-gradient-blue { background: linear-gradient(135deg, #C9A040, #F0D080); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .text-gradient-pink { background: linear-gradient(135deg, #D0D0D0, #FFFFFF); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
 
     /* Hero background */
     .hero-bg {
       background:
-        radial-gradient(ellipse 80% 60% at 50% 0%, rgba(0,207,255,0.10) 0%, transparent 65%),
-        radial-gradient(ellipse 60% 40% at 100% 50%, rgba(255,0,128,0.08) 0%, transparent 60%),
+        radial-gradient(ellipse 80% 60% at 50% 0%, rgba(201,160,64,0.10) 0%, transparent 65%),
+        radial-gradient(ellipse 50% 40% at 90% 60%, rgba(201,160,64,0.05) 0%, transparent 60%),
         #000000;
     }
 
     /* Animated top stripe */
     .top-stripe {
-      background: linear-gradient(90deg, #00CFFF 0%, #FF0080 50%, #00CFFF 100%);
+      background: linear-gradient(90deg, #8B6914 0%, #F0D080 40%, #C9A040 60%, #8B6914 100%);
       background-size: 200% 100%;
       animation: stripe-slide 4s linear infinite;
     }
@@ -64,14 +64,14 @@
     /* Card hover */
     .pricing-card { transition: transform 0.25s ease, box-shadow 0.25s ease; }
     .pricing-card:hover { transform: translateY(-6px); }
-    .pricing-card.cyan:hover  { box-shadow: 0 8px 40px rgba(0,207,255,0.35); }
-    .pricing-card.pink:hover  { box-shadow: 0 8px 40px rgba(255,0,128,0.35); }
+    .pricing-card.cyan:hover  { box-shadow: 0 8px 40px rgba(201,160,64,0.35); }
+    .pricing-card.pink:hover  { box-shadow: 0 8px 40px rgba(201,160,64,0.30); }
 
     /* Pulse CTA */
     .cta-pulse { animation: pulse-cta 2.4s ease-in-out infinite; }
     @keyframes pulse-cta {
-      0%,100% { box-shadow: 0 0 0 0 rgba(0,207,255,0.5), 0 4px 24px rgba(0,207,255,0.35); }
-      50%      { box-shadow: 0 0 0 12px rgba(0,207,255,0), 0 4px 32px rgba(0,207,255,0.55); }
+      0%,100% { box-shadow: 0 0 0 0 rgba(201,160,64,0.6), 0 4px 24px rgba(201,160,64,0.40); }
+      50%      { box-shadow: 0 0 0 12px rgba(201,160,64,0), 0 4px 32px rgba(201,160,64,0.60); }
     }
 
     /* Mobile sticky CTA bar */
@@ -85,17 +85,17 @@
     .divider { height: 1px; background: linear-gradient(90deg, transparent, #1e1e1e 20%, #1e1e1e 80%, transparent); }
 
     /* Checkmark list */
-    .check-list li::before      { content: "✓"; color: #00CFFF; font-weight: 700; margin-right: 8px; }
-    .check-list-pink li::before { content: "✓"; color: #FF0080; font-weight: 700; margin-right: 8px; }
+    .check-list li::before      { content: "✓"; color: #C9A040; font-weight: 700; margin-right: 8px; }
+    .check-list-pink li::before { content: "✓"; color: #C9A040; font-weight: 700; margin-right: 8px; }
 
     /* Badge */
     .badge-popular {
-      background: linear-gradient(135deg, #00CFFF, #0099CC);
+      background: linear-gradient(135deg, #C9A040, #8B6914);
       font-size: 0.65rem; font-weight: 800; letter-spacing: 0.1em;
       padding: 3px 10px; border-radius: 100px; text-transform: uppercase;
     }
     .badge-best {
-      background: linear-gradient(135deg, #FF0080, #CC0066);
+      background: linear-gradient(135deg, #8B6914, #5A3E08);
       font-size: 0.65rem; font-weight: 800; letter-spacing: 0.1em;
       padding: 3px 10px; border-radius: 100px; text-transform: uppercase;
     }
@@ -119,7 +119,7 @@
   <a href="https://purefinishstl.github.io/purefinishstl/" id="nav-logo" onclick="animateLogo();return false;" class="flex items-center gap-2.5 transition-transform duration-150">
     <img src="logo.jpg" alt="Pure Finish STL Logo" class="h-14 w-14 object-contain" />
     <div class="flex flex-col leading-none">
-      <span class="text-lg font-black tracking-tight text-white">PURE <span class="text-gradient-blue">FINISH</span> <span class="text-gradient-pink">STL</span></span>
+      <span class="text-lg font-black tracking-tight text-white">PURE <span class="text-gradient-blue">FINISH</span> <span class="text-white">STL</span></span>
       <span class="text-[10px] font-bold tracking-widest text-brand-silver/50 uppercase">Mobile Detailing</span>
     </div>
   </a>
@@ -154,10 +154,10 @@
     <h1 class="text-5xl md:text-7xl font-black leading-none tracking-tight mb-4">
       <span class="text-white">PURE</span><br>
       <span class="text-gradient-blue">FINISH</span>
-      <span class="text-gradient-pink"> STL</span>
+      <span class="text-white"> STL</span>
     </h1>
 
-    <p class="text-brand-blue/80 text-sm font-black tracking-[0.25em] uppercase mb-2">Precision · Protection · Perfection</p>
+    <p class="text-brand-blue/90 text-sm font-black tracking-[0.25em] uppercase mb-2">Precision · Protection · Perfection</p>
     <p class="text-brand-silver text-base md:text-lg font-medium max-w-xl mx-auto mb-10">
       Premium mobile auto detailing in the St. Louis area. We come to you — every detail, every time.
     </p>
@@ -265,17 +265,17 @@
       </div>
       <div class="px-5 py-4 flex-1 flex flex-col">
         <div class="space-y-1.5 mb-5">
-          <div class="flex justify-between items-center py-1.5 border-b border-brand-border/50 text-sm"><span class="text-brand-silver">Sedan</span><span class="text-white font-bold">$299</span></div>
-          <div class="flex justify-between items-center py-1.5 border-b border-brand-border/50 text-sm"><span class="text-brand-silver">SUV</span><span class="text-white font-bold">$349</span></div>
-          <div class="flex justify-between items-center py-1.5 text-sm"><span class="text-brand-silver">Truck</span><span class="text-white font-bold">$399</span></div>
+          <div class="flex justify-between items-center py-1.5 border-b border-brand-border/50 text-sm"><span class="text-brand-silver">Sedan</span><span class="text-white font-bold">$339</span></div>
+          <div class="flex justify-between items-center py-1.5 border-b border-brand-border/50 text-sm"><span class="text-brand-silver">SUV</span><span class="text-white font-bold">$389</span></div>
+          <div class="flex justify-between items-center py-1.5 text-sm"><span class="text-brand-silver">Truck</span><span class="text-white font-bold">$449</span></div>
         </div>
         <div class="bg-brand-black/60 rounded-xl p-3.5 mb-4">
           <p class="text-xs font-bold text-brand-pink uppercase tracking-wider mb-2">Includes</p>
           <ul class="check-list-pink space-y-1 text-xs text-brand-silver list-none">
             <li>Everything in Enhance</li>
-            <li>Multi-Step Paint Correction</li>
+            <li>Iron Decontamination</li>
+            <li>Clay Bar Treatment</li>
             <li>High Gloss Finish</li>
-            <li>Paint Sealant Protection</li>
             <li>Deep Interior Shampoo</li>
             <li>Leather Treatment</li>
             <li>Odor Elimination</li>
@@ -300,16 +300,16 @@
       </div>
       <div class="px-5 py-4 flex-1 flex flex-col">
         <div class="space-y-1.5 mb-5">
-          <div class="flex justify-between items-center py-1.5 border-b border-brand-border/50 text-sm"><span class="text-brand-silver">Sedan</span><span class="text-white font-bold">$499</span></div>
-          <div class="flex justify-between items-center py-1.5 border-b border-brand-border/50 text-sm"><span class="text-brand-silver">SUV</span><span class="text-white font-bold">$599</span></div>
-          <div class="flex justify-between items-center py-1.5 text-sm"><span class="text-brand-silver">Truck</span><span class="text-white font-bold">$649</span></div>
+          <div class="flex justify-between items-center py-1.5 border-b border-brand-border/50 text-sm"><span class="text-brand-silver">Sedan</span><span class="text-white font-bold">$559</span></div>
+          <div class="flex justify-between items-center py-1.5 border-b border-brand-border/50 text-sm"><span class="text-brand-silver">SUV</span><span class="text-white font-bold">$659</span></div>
+          <div class="flex justify-between items-center py-1.5 text-sm"><span class="text-brand-silver">Truck</span><span class="text-white font-bold">$719</span></div>
         </div>
         <div class="bg-brand-black/60 rounded-xl p-3.5 mb-4">
           <p class="text-xs font-bold text-brand-pink uppercase tracking-wider mb-2">Includes</p>
           <ul class="check-list-pink space-y-1 text-xs text-brand-silver list-none">
             <li>Everything in Refine</li>
-            <li>Premium Window Coating</li>
             <li>Glass Coating</li>
+            <li>Premium Wheel Coating</li>
             <li>Headlight Restoration</li>
             <li>Steamer Deep Clean</li>
             <li>Cabin Air Purification</li>
@@ -488,9 +488,9 @@
 
     <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
       <div class="bg-brand-card border border-brand-border rounded-xl p-4 text-center hover:border-brand-blue/40 transition-colors">
-        <p class="text-white font-bold text-sm mb-1">Ceramic Coating</p>
-        <p class="text-brand-silver/50 text-xs mb-2">5 Year Protection</p>
-        <p class="text-brand-blue font-bold text-base">$759</p>
+        <p class="text-white font-bold text-sm mb-1">Paint Correction</p>
+        <p class="text-brand-silver/50 text-xs mb-2">Swirls &amp; Scratches</p>
+        <p class="text-brand-blue font-bold text-base">$600–$800</p>
       </div>
       <div class="bg-brand-card border border-brand-border rounded-xl p-4 text-center hover:border-brand-blue/40 transition-colors">
         <p class="text-white font-bold text-sm mb-1">Headlight Restoration</p>
@@ -500,32 +500,27 @@
       <div class="bg-brand-card border border-brand-border rounded-xl p-4 text-center hover:border-brand-blue/40 transition-colors">
         <p class="text-white font-bold text-sm mb-1">Engine Bay Detail</p>
         <p class="text-brand-silver/50 text-xs mb-2">Deep Degreasing</p>
-        <p class="text-brand-blue font-bold text-base">$75</p>
+        <p class="text-brand-blue font-bold text-base">$49</p>
       </div>
       <div class="bg-brand-card border border-brand-border rounded-xl p-4 text-center hover:border-brand-blue/40 transition-colors">
         <p class="text-white font-bold text-sm mb-1">Pet Hair Removal</p>
         <p class="text-brand-silver/50 text-xs mb-2">Full Interior</p>
         <p class="text-brand-blue font-bold text-base">$75</p>
       </div>
-      <div class="bg-brand-card border border-brand-border rounded-xl p-4 text-center hover:border-brand-pink/40 transition-colors">
-        <p class="text-white font-bold text-sm mb-1">Paint Correction</p>
-        <p class="text-brand-silver/50 text-xs mb-2">Swirls &amp; Scratches</p>
-        <p class="text-brand-pink font-bold text-base">$150+</p>
-      </div>
-      <div class="bg-brand-card border border-brand-border rounded-xl p-4 text-center hover:border-brand-pink/40 transition-colors">
+      <div class="bg-brand-card border border-brand-border rounded-xl p-4 text-center hover:border-brand-blue/40 transition-colors">
         <p class="text-white font-bold text-sm mb-1">Wheel Off Detail</p>
         <p class="text-brand-silver/50 text-xs mb-2">Full Wheel Removal</p>
-        <p class="text-brand-pink font-bold text-base">$200</p>
-      </div>
-      <div class="bg-brand-card border border-brand-border rounded-xl p-4 text-center hover:border-brand-blue/40 transition-colors">
-        <p class="text-white font-bold text-sm mb-1">Interior Shampoo</p>
-        <p class="text-brand-silver/50 text-xs mb-2">Seats &amp; Carpet</p>
-        <p class="text-brand-blue font-bold text-base">$75</p>
+        <p class="text-brand-blue font-bold text-base">$200</p>
       </div>
       <div class="bg-brand-card border border-brand-border rounded-xl p-4 text-center hover:border-brand-blue/40 transition-colors">
         <p class="text-white font-bold text-sm mb-1">Odor Elimination</p>
         <p class="text-brand-silver/50 text-xs mb-2">Ozone Treatment</p>
         <p class="text-brand-blue font-bold text-base">$125</p>
+      </div>
+      <div class="bg-brand-card border border-brand-border rounded-xl p-4 text-center hover:border-brand-blue/40 transition-colors col-span-2 sm:col-span-2">
+        <p class="text-white font-bold text-sm mb-1">Ceramic Coating</p>
+        <p class="text-brand-silver/50 text-xs mb-2">5 Year Protection</p>
+        <p class="text-brand-blue font-bold text-base">$600–$800</p>
       </div>
     </div>
 
@@ -781,12 +776,12 @@
                 <option>Enhance – Sedan ($159)</option>
                 <option>Enhance – SUV ($179)</option>
                 <option>Enhance – Truck ($199)</option>
-                <option>Refine – Sedan ($299)</option>
-                <option>Refine – SUV ($349)</option>
-                <option>Refine – Truck ($399)</option>
-                <option>Ultimate – Sedan ($499)</option>
-                <option>Ultimate – SUV ($599)</option>
-                <option>Ultimate – Truck ($649)</option>
+                <option>Refine – Sedan ($339)</option>
+                <option>Refine – SUV ($389)</option>
+                <option>Refine – Truck ($449)</option>
+                <option>Ultimate – Sedan ($559)</option>
+                <option>Ultimate – SUV ($659)</option>
+                <option>Ultimate – Truck ($719)</option>
                 <option value="build">Build Your Own Detail</option>
               </select>
             </div>
@@ -978,7 +973,7 @@
 <footer class="bg-brand-black border-t border-brand-border px-5 py-10 text-center">
   <div class="max-w-4xl mx-auto">
     <p class="text-2xl font-black text-white mb-1">
-      PURE<span class="text-gradient-blue">FINISH</span><span class="text-gradient-pink"> STL</span>
+      PURE <span class="text-gradient-blue">FINISH</span> STL
     </p>
     <p class="text-brand-silver/50 text-xs tracking-widest uppercase mb-6">Auto Detailing · St. Louis, MO</p>
 
@@ -1229,8 +1224,8 @@ Please let me know your availability. Thank you!`;
   const pkgPrices = {
     'Refresh':  { Sedan: '$79',  SUV: '$89',  Truck: '$99'  },
     'Enhance':  { Sedan: '$159', SUV: '$179', Truck: '$199' },
-    'Refine':   { Sedan: '$299', SUV: '$349', Truck: '$399' },
-    'Ultimate': { Sedan: '$499', SUV: '$599', Truck: '$649' },
+    'Refine':   { Sedan: '$339', SUV: '$389', Truck: '$449' },
+    'Ultimate': { Sedan: '$559', SUV: '$659', Truck: '$719' },
   };
   let activePkg = '';
 
